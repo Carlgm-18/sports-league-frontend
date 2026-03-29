@@ -8,7 +8,6 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// Hook personalizado para usarlo rápido y sin importar mil cosas
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
@@ -17,10 +16,8 @@ export function useAuth() {
   return context;
 }
 
-// El proveedor que envolverá tu app
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Por ahora lo simulamos con un boolean. 
-  // Más adelante, aquí leerás el token JWT de expo-secure-store.
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = () => setIsAuthenticated(true);
