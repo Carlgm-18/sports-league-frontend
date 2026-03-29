@@ -38,10 +38,23 @@
     "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
+    "@lavamoat/allow-scripts": "^4.0.0",
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "typescript": "~5.9.2"
   },
-  "private": true
+  "private": true,
+  "lavamoat": {
+    "allowScripts": {
+      "expo": true,
+      "react-native": true,
+      "expo-modules-autolinking": true,
+      "@babel/core": true,
+      "core-js": true,
+      "esbuild": true,
+      "@lavamoat/allow-scripts": false,
+      "eslint-config-expo>eslint-import-resolver-typescript>unrs-resolver": false
+    }
+  }
 }
