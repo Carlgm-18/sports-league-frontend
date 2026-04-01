@@ -9,7 +9,7 @@ export const LoginButton = () => {
     if (isAuthenticated) {
       router.push('/profile');
     } else {
-      router.push('/login');
+      router.push('./auth/login');
     }
   };
   return (
