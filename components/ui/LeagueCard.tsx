@@ -15,27 +15,21 @@ export const LEAGUE_CARD_WIDTH = 300;
 export const LeagueCard = ({ name, description, iconImageUrl, bannerImageUrl }: LeagueCardProps) => {
   return (
     <View style={leagueStyles.cardContainer}>
-      {/* Sección Superior: Banner e Icono */}
       <View style={leagueStyles.bannerSection}>
         {bannerImageUrl ? (
           <Image source={{ uri: bannerImageUrl }} style={leagueStyles.bannerImage} />
         ) : (
-          // Marcador de posición si no hay banner
           <View style={leagueStyles.bannerPlaceholder} />
         )}
-        
-        {/* Logo Circular (Hardcoded en el centro para la plantilla) */}
         <View style={leagueStyles.logoContainer}>
           {iconImageUrl ? (
             <Image source={{ uri: iconImageUrl }} style={leagueStyles.logoImage} />
           ) : (
-            // Marcador de posición si no hay logo
             <View style={leagueStyles.logoPlaceholder} />
           )}
         </View>
       </View>
 
-      {/* Sección Inferior: Texto de Información */}
       <View style={leagueStyles.contentSection}>
         <Text style={leagueStyles.leagueName}>{name}</Text>
         <Text style={leagueStyles.leagueDescription} numberOfLines={6}>
@@ -84,7 +78,6 @@ const leagueStyles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    // Sombra interna para el logo
     elevation: 2, 
   },
   logoImage: {
@@ -96,7 +89,7 @@ const leagueStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 50,
-    backgroundColor: Colors.dark.cardFill, // Logo gris oscuro
+    backgroundColor: Colors.dark.cardFill,
   },
   contentSection: {
     padding: 20,
