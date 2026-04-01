@@ -16,10 +16,12 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
+        <SafeAreaView style={{ flex: 1 }}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="ligas/[id]" options={{ headerShown: false }} />
         </Stack>
+        </SafeAreaView>
         <StatusBar style="auto" />
       </AuthProvider>
     </ThemeProvider>
