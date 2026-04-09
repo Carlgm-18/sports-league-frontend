@@ -377,24 +377,10 @@ components:
           type: string
 
     PunctuationSystemCreateRequest:
-      type: object
-      required: [
-        localScore,
-        visitorScore,
-        localPoints,
-        visitorPoints
-      ]
-      properties:
-        localScore:
-          type: integer
-        visitorScore:
-          type: integer
-        localPoints:
-          type: integer
-        visitorPoints:
-          type: integer
+      type: array
+      items:
+        $ref: '#/components/schemas/PunctuationSystemRuleDetails'
 
-    
     PunctuationSystemRuleDetails:
       type: object
       required: [localScore, visitorScore, localPoints, visitorPoints]
