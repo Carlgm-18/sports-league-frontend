@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  Pressable, 
-  StyleSheet, 
-  KeyboardAvoidingView, 
-  Platform 
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { useState } from 'react';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from 'react-native';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -19,24 +19,30 @@ export default function LoginScreen() {
   const handleLogin = () => {
     // Tu lógica aquí...
     console.log('Enviando...', email, password);
-    router.replace('/'); 
+    router.replace('/');
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.screenContainer} 
+    <KeyboardAvoidingView
+      style={styles.screenContainer}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <View style={styles.contentContainer}>
-        
         <View style={styles.headerContainer}>
           <Text style={styles.title}>¡Hola de nuevo! 👋</Text>
-          <Text style={styles.subtitle}>Inicia sesión para gestionar tus ligas</Text>
+          <Text style={styles.subtitle}>
+            Inicia sesión para gestionar tus ligas
+          </Text>
         </View>
 
         <View style={styles.formContainer}>
           <View style={styles.inputContainer}>
-            <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
+            <Ionicons
+              name="mail-outline"
+              size={20}
+              color="#666"
+              style={styles.icon}
+            />
             <TextInput
               style={styles.input}
               placeholder="Correo electrónico"
@@ -48,7 +54,12 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.icon} />
+            <Ionicons
+              name="lock-closed-outline"
+              size={20}
+              color="#666"
+              style={styles.icon}
+            />
             <TextInput
               style={styles.input}
               placeholder="Contraseña"
@@ -65,12 +76,13 @@ export default function LoginScreen() {
 
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>¿No tienes una cuenta? </Text>
-          <Pressable onPress={() => router.push('./auth/register')}>
-            <Text style={styles.registerText}>Regístrate</Text>
-          </Pressable>
+          <Link href="/auth/register" asChild>
+            <Pressable>
+              <Text style={styles.registerText}>Regístrate</Text>
+            </Pressable>
+          </Link>
         </View>
       </View>
-
     </KeyboardAvoidingView>
   );
 }
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Centra el contenido horizontalmente (clave para web)
     paddingHorizontal: 24, // Pequeño margen para móvil
   },
-  
+
   // NUEVO: El hijo que envuelve el contenido y SE LIMITA
   contentContainer: {
     width: '100%', // En móvil ocupa todo el ancho
