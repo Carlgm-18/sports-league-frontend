@@ -408,6 +408,10 @@ components:
           format: date-time
         sequenceOrder:
           type: string
+        rounds:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoundDetails'
 
 
     TournamentPhase:
