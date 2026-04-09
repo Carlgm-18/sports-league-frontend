@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
-const primaryBlue = '#2196F3'; // Azul para botones de acción
+export const primaryBlue = '#2196F3'; // Azul para botones de acción
 
 export const Colors = {
   light: {
