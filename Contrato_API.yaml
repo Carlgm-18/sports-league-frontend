@@ -871,8 +871,9 @@ components:
           type: integer
         atVisitorScore:
           type: integer
+        responsibleTeamId:
+          type: integer
 
-    
     SubstitutionEvent:
       allOf:
         - $ref: '#/components/schemas/MatchEvent'
