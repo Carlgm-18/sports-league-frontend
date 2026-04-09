@@ -2416,3 +2416,23 @@ paths:
         '404':
           description: 'Fase o liga no encontrada.'
 
+  /leagues/{leagueId}/my-status:
+    get:
+      tags:
+        - Ligas
+      summary: Obtener el contexto del usuario actual en la liga
+      parameters:
+        - in: path
+          name: leagueId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Contexto recuperado'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLeagueStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
