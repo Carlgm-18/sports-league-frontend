@@ -628,6 +628,42 @@ components:
         leagueId:
           type: integer
 
+    TeamSummary:
+      type: object
+      required:
+        [
+          id,
+          name,
+          initials,
+          motto,
+          primaryColor,
+          secondaryColor,
+          iconImageUrl,
+        ]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        initials:
+          type: string
+          format: regex
+          pattern: '[A-Z][0-9A-Z]'
+        motto:
+          type: string
+        primaryColor:
+          type: string
+          format: regex
+          pattern: '#[0-9A-F]{8}'
+          example: '#FFAABB77'
+        secondaryColor:
+          type: string
+          format: regex
+          pattern: '#[0-9A-F]{8}'
+          example: '#FFAABB77'
+        iconImageUrl:
+          type: string
+          format: uri
 
     TeamMembersDetails:
       type: object
