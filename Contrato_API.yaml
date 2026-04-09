@@ -2390,3 +2390,29 @@ paths:
         '403':
           description: 'Prohibido: Un usuario solo puede modificar su propia disponibilidad.'
 
+  /leagues/{leagueId}/phases/{phaseId}:
+    get:
+      tags:
+        - Fases
+      summary: Obtener los detalles de una fase concreta (Grupos o Eliminatorias)
+      parameters:
+        - in: path
+          name: leagueId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: phaseId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Detalle de la fase'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhaseDetails'
+        '404':
+          description: 'Fase o liga no encontrada.'
+
