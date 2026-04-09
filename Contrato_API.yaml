@@ -516,37 +516,49 @@ components:
         punctuationSystem:
           $ref: '#/components/schemas/PunctuationSystemRuleDetails'
 
-
-    LeaderboardDetails:
+    LeagueSummary:
       type: object
-      required: [
-        teams
-      ]
+      required:
+        [
+          id,
+          name,
+          description,
+          iconImageUrl,
+          bannerImageUrl,
+          locationUrl,
+          startDate,
+          endDate,
+          maxInscriptionDate,
+          status,
+          category
+        ]
       properties:
-        teams:
-          type: array
-          items: 
-            type: object
-            properties:
-              team:
-                $ref: '#/components/schemas/TeamDetails'
-              position:
-                type: integer
-              playedMatches:
-                type: integer
-              wonMatches:
-                type: integer
-              lostMatches:
-                type: integer
-              wonSets:
-                type: integer
-              lostSets:
-                type: integer
-              wonPoints:
-                type: integer
-              lostPoints:
-                type: integer
-                
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        iconImageUrl:
+          type: string
+          format: uri
+        bannerImageUrl:
+          type: string
+          format: uri
+        locationUrl:
+          type: string
+          format: uri
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        maxInscriptionDate:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/LeagueState'
 
     ParticipantDetails:
       type: object
