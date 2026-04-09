@@ -1743,6 +1743,21 @@ paths:
           required: true
           schema:
             type: integer
+        - in: query
+          name: phaseId
+          description: 'Filtrar partidos por una fase específica'
+          schema:
+            type: integer
+        - in: query
+          name: teamId
+          description: 'Filtrar partidos de un equipo concreto'
+          schema:
+            type: integer
+        - in: query
+          name: status
+          description: 'Filtrar por estado del partido (Ej: PENDING, ENDED)'
+          schema:
+            $ref: '#/components/schemas/MatchState'
       responses:
         '200':
           description: 'Calendario de partidos generados'
