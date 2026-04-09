@@ -1428,7 +1428,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeaderboardDetails'
+                $ref: '#/components/schemas/LeaderboardResponse'
         '404':
           description: 'Liga no encontrada.'
 
