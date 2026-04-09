@@ -2332,7 +2332,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: "Lista de franjas elegidas por el participante."
+          description: 'Lista de franjas elegidas por el participante.'
           content:
             application/json:
               schema:
@@ -2342,7 +2342,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
-          description: "Participante o ronda no encontrados."
+          description: 'Participante o ronda no encontrados.'
 
     put:
       tags:
