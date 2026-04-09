@@ -340,7 +340,8 @@ components:
           description: 'Duración de una jornada en semanas'
           minimum: 1
           maximum: 4
-
+        sportName:
+          type: string
 
     ConfigurationUpdateRequest:
       type: object
@@ -372,6 +373,8 @@ components:
         roundDuration:
           type: integer
           description: 'Duración de una jornada en semanas'
+        sportName:
+          type: string
 
     PunctuationSystemCreateRequest:
       type: object
