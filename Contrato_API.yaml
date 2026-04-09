@@ -767,9 +767,9 @@ components:
         status:
           $ref: '#/components/schemas/MatchState'
         localTeam:
-          $ref: '#/components/schemas/TeamDetails'
+          $ref: '#/components/schemas/TeamSummary'
         visitorTeam:
-          $ref: '#/components/schemas/TeamDetails'
+          $ref: '#/components/schemas/TeamSummary'
         dateTime:
           $ref: '#/components/schemas/DateTimeSlot'
         proposal:
