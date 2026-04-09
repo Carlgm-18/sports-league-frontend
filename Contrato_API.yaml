@@ -1413,6 +1413,11 @@ paths:
           schema:
             type: integer
         - in: query
+          name: phaseId
+          description: 'ID de la fase (Apertura, Clausura, etc.) para ver su clasificación específica.'
+          schema:
+            type: integer
+        - in: query
           name: roundId
           description: 'ID de la jornada para obtener histórico.'
           schema:
