@@ -935,6 +935,52 @@ components:
         resolution:
           type: string
 
+    LeaderboardRow:
+      type: object
+      required: [position, team, playedMatches]
+      properties:
+        position:
+          type: integer
+        team:
+          $ref: '#/components/schemas/TeamSummary'
+        playedMatches:
+          type: integer
+        wonMatches:
+          type: integer
+        lostMatches:
+          type: integer
+        drawnMatches:
+          type: integer
+        points:
+          type: integer
+        wonSets:
+          type: integer
+        lostSets:
+          type: integer
+        wonPoints:
+          type: integer
+        lostPoints:
+          type: integer
+
+    LeaderboardGroup:
+      type: object
+      required: [groupId, groupName, standings]
+      description: "Esquema para agrupar clasificaciones (Ej: Grupo A, Grupo B, o 'General')"
+      properties:
+        groupId:
+          type: integer
+        groupName:
+          type: string
+        standings:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardRow'
+
+    LeaderboardResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/LeaderboardGroup'
+
 
   responses:
     BadRequest:
