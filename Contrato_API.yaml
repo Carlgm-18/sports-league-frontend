@@ -935,6 +935,25 @@ components:
         resolution:
           type: string
 
+    UserLeagueStatus:
+      type: object
+      required: [leagueId, roles, joinDate]
+      properties:
+        leagueId:
+          type: integer
+        participantId:
+          type: integer
+        teamId:
+          type: integer
+          description: 'Nulo si el usuario aún no tiene equipo en esta liga'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        joinDate:
+          type: string
+          format: date-time
+
     LeaderboardRow:
       type: object
       required: [position, team, playedMatches]
