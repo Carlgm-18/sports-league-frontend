@@ -24,7 +24,7 @@ export default function RootLayout() {
         <SafeAreaView style={{ flex: 1 }}>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="ligas/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="ligas/[leagueId]" options={{ headerShown: false }} />
             <Stack.Screen name="profile" options={{ headerShown: false }} />
             <Stack.Screen name="auth/login" options={{ headerShown: false }} />
             <Stack.Screen name="auth/register" options={{ headerShown: false }} />
