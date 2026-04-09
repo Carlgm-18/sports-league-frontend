@@ -1000,6 +1000,19 @@ components:
       items:
         $ref: '#/components/schemas/LeaderboardGroup'
 
+    RoundDetails:
+      type: object
+      required: [id, roundNumber, startDate]
+      properties:
+        id:
+          type: integer
+        roundNumber:
+          type: integer
+          description: "Jornada 1, Jornada 2, etc."
+        startDate:
+          type: string
+          format: date
+          description: "Día en que empieza dicha ronda"
 
   responses:
     BadRequest:
