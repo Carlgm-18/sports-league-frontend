@@ -95,6 +95,11 @@ export interface UserCreateRequest {
    * @maxLength 50
    */
   email: string;
+  /**
+   * @format password
+   * @maxLength 50
+   */
+  password: string;
   category: UserCategory;
   licenses?: {
     sportName?: string;
@@ -114,21 +119,6 @@ export interface UserUpdateRequest {
   }[];
 }
 
-export interface UserDetails {
-  id: number;
-  fullName: string;
-  /** @format email */
-  email: string;
-  category: string;
-  /** @format uri */
-  profileImageUrl?: string;
-  signature?: ImageUrl;
-  licenses: {
-    sportName?: string;
-    license?: string;
-  }[];
-}
-
 export interface UserLoginRequest {
   /**
    * @format email
@@ -140,6 +130,29 @@ export interface UserLoginRequest {
    * @maxLength 50
    */
   password: string;
+}
+
+export interface UserDetails {
+  id: number;
+  fullName: string;
+  /** @format email */
+  email: string;
+  category: string;
+  /** @format uri */
+  profileImageUrl: string;
+  signature?: ImageUrl;
+  licenses: {
+    sportName?: string;
+    license?: string;
+  }[];
+}
+
+export interface UserSummary {
+  id: number;
+  fullName: string;
+  category: string;
+  /** @format uri */
+  profileImageUrl: string;
 }
 
 export interface UserAuthResponse {
@@ -175,7 +188,7 @@ export interface LeagueCreateRequest {
   maxInscriptionDate: string;
   configuration: ConfigurationCreateRequest;
   punctuationSystem?: PunctuationSystemCreateRequest;
-  phases: (TournamentPhase | ClassificationPhase)[];
+  phases: ClassificationPhase[];
 }
 
 export interface LeagueUpdateRequest {
@@ -195,7 +208,7 @@ export interface LeagueUpdateRequest {
   endDate?: string;
   /** @format date-time */
   maxInscriptionDate?: string;
-  phases?: (TournamentPhase | ClassificationPhase)[];
+  phases?: ClassificationPhase[];
 }
 
 export interface ConfigurationCreateRequest {
@@ -218,6 +231,7 @@ export interface ConfigurationCreateRequest {
    * @max 4
    */
   roundDuration: number;
+  sportName: string;
 }
 
 export interface ConfigurationUpdateRequest {
@@ -236,14 +250,10 @@ export interface ConfigurationDetails {
   maxTeamMembers: number;
   /** Duración de una jornada en semanas */
   roundDuration: number;
+  sportName: string;
 }
 
-export interface PunctuationSystemCreateRequest {
-  localScore: number;
-  visitorScore: number;
-  localPoints: number;
-  visitorPoints: number;
-}
+export type PunctuationSystemCreateRequest = PunctuationSystemRuleDetails[];
 
 export interface PunctuationSystemRuleDetails {
   localScore: number;
@@ -259,9 +269,10 @@ export interface LeagueBasePhase {
   /** @format date-time */
   endDate: string;
   sequenceOrder: string;
+  rounds?: RoundDetails[];
 }
 
-export type TournamentPhase = LeagueBasePhase & {
+export type TournamentPhaseDetails = LeagueBasePhase & {
   matchesOrder?: TournamentSlot[];
 };
 
@@ -273,6 +284,11 @@ export interface TournamentSlot {
 export type ClassificationPhase = LeagueBasePhase & {
   groups?: ClassificationGroup[];
 };
+
+export type ClassificationPhaseDetails = LeagueBasePhase &
+  LeaderboardResponse & {
+    groups?: ClassificationGroup[];
+  };
 
 export interface ClassificationGroup {
   topWinners: number;
@@ -302,18 +318,23 @@ export interface LeagueDetails {
   punctuationSystem?: PunctuationSystemRuleDetails;
 }
 
-export interface LeaderboardDetails {
-  teams: {
-    team?: TeamDetails;
-    position?: number;
-    playedMatches?: number;
-    wonMatches?: number;
-    lostMatches?: number;
-    wonSets?: number;
-    lostSets?: number;
-    wonPoints?: number;
-    lostPoints?: number;
-  }[];
+export interface LeagueSummary {
+  id: number;
+  name: string;
+  description: string;
+  /** @format uri */
+  iconImageUrl: string;
+  /** @format uri */
+  bannerImageUrl: string;
+  /** @format uri */
+  locationUrl: string;
+  /** @format date-time */
+  startDate: string;
+  /** @format date-time */
+  endDate: string;
+  /** @format date-time */
+  maxInscriptionDate: string;
+  status: LeagueState;
 }
 
 export interface ParticipantDetails {
@@ -355,6 +376,31 @@ export interface TeamDetails {
   /** @format date-time */
   deletedAt?: string;
   leagueId: number;
+}
+
+export interface TeamSummary {
+  id: number;
+  name: string;
+  /**
+   * @format regex
+   * @pattern [A-Z][0-9A-Z]
+   */
+  initials: string;
+  motto: string;
+  /**
+   * @format regex
+   * @pattern #[0-9A-F]{8}
+   * @example "#FFAABB77"
+   */
+  primaryColor: string;
+  /**
+   * @format regex
+   * @pattern #[0-9A-F]{8}
+   * @example "#FFAABB77"
+   */
+  secondaryColor: string;
+  /** @format uri */
+  iconImageUrl: string;
 }
 
 export interface TeamMembersDetails {
@@ -417,11 +463,13 @@ export interface MatchDateProposalDetails {
 
 export interface MatchDetails {
   status?: MatchState;
-  localTeam?: TeamDetails;
-  visitorTeam?: TeamDetails;
+  localTeam?: TeamSummary;
+  visitorTeam?: TeamSummary;
   dateTime?: DateTimeSlot;
   proposal?: MatchDateProposalDetails;
-  round?: number;
+  roundId?: number;
+  firstReferee?: any;
+  secondReferee?: any;
   resultResumee?: ResultResumee;
   completeResult?: ResultDetails;
 }
@@ -453,6 +501,8 @@ export interface MatchPeriod {
   periodNumber: number;
   localScore: number;
   visitorScore: number;
+  /** Ej: HALF, QUARTER, SET */
+  periodType: string;
   events: (SubstitutionEvent | SanctionEvent | TimeoutEvent)[];
 }
 
@@ -461,6 +511,7 @@ export interface MatchEvent {
   happenedAtTime: number;
   atLocalScore: number;
   atVisitorScore: number;
+  responsibleTeamId: number;
 }
 
 export type SubstitutionEvent = MatchEvent & {
@@ -495,4 +546,53 @@ export interface IncidenceDetails {
   incidenceId?: number;
   description: string;
   resolution: string;
+}
+
+export interface UserLeagueStatus {
+  leagueId: number;
+  participantId?: number;
+  /** Nulo si el usuario aún no tiene equipo en esta liga */
+  teamId?: number;
+  roles: Role[];
+  /** @format date-time */
+  joinDate: string;
+}
+
+export interface LeaderboardRow {
+  position: number;
+  team: TeamSummary;
+  playedMatches: number;
+  wonMatches?: number;
+  lostMatches?: number;
+  drawnMatches?: number;
+  points?: number;
+  wonSets?: number;
+  lostSets?: number;
+  wonPoints?: number;
+  lostPoints?: number;
+}
+
+/** Esquema para agrupar clasificaciones (Ej: Grupo A, Grupo B, o 'General') */
+export interface LeaderboardGroup {
+  groupId: number;
+  groupName: string;
+  standings: LeaderboardRow[];
+}
+
+export type LeaderboardResponse = LeaderboardGroup[];
+
+export interface PhaseDetails {
+  phaseId?: number;
+  phases?: ClassificationPhaseDetails | TournamentPhaseDetails;
+}
+
+export interface RoundDetails {
+  id: number;
+  /** Jornada 1, Jornada 2, etc. */
+  roundNumber: number;
+  /**
+   * Día en que empieza dicha ronda
+   * @format date
+   */
+  startDate: string;
 }
