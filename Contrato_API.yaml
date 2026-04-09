@@ -13,9 +13,10 @@ servers:
 tags:
   - name: Usuarios
   - name: Ligas
+  - name: Fases
+  - name: Partidos
   - name: Equipos
   - name: Participaciones
-  - name: Partidos
   - name: Incidencias
 
 components:
