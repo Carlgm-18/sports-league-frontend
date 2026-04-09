@@ -160,6 +160,18 @@ components:
               license:
                 type: string
 
+    UserLoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 50
+        password:
+          type: string
+          format: password
+          maxLength: 50
 
     UserDetails:
       type: object
