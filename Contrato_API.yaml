@@ -849,6 +849,9 @@ components:
           type: integer
         visitorScore:
           type: integer
+        periodType:
+          type: string
+          description: "Ej: HALF, QUARTER, SET"
         events:
           type: array
           items:
