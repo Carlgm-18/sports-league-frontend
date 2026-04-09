@@ -123,6 +123,10 @@ components:
           type: string
           format: email
           maxLength: 50
+        password:
+          type: string
+          format: password
+          maxLength: 50
         category:
           $ref: '#/components/schemas/UserCategory'
         licenses:
