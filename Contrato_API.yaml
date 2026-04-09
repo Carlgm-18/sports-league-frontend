@@ -776,6 +776,10 @@ components:
           $ref: '#/components/schemas/MatchDateProposalDetails'
         round:
           type: integer
+        firstReferee:
+          $ref: '#/components/schemas/ParticipationDetails'
+        secondReferee:
+          $ref: '#/components/schemas/ParticipationDetails'
         resultResumee:
           $ref: '#/components/schemas/ResultResumee'
         completeResult:
