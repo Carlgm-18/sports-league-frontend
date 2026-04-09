@@ -774,7 +774,7 @@ components:
           $ref: '#/components/schemas/DateTimeSlot'
         proposal:
           $ref: '#/components/schemas/MatchDateProposalDetails'
-        round:
+        roundId:
           type: integer
         firstReferee:
           $ref: '#/components/schemas/ParticipationDetails'
