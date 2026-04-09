@@ -413,8 +413,7 @@ components:
           items:
             $ref: '#/components/schemas/RoundDetails'
 
-
-    TournamentPhase:
+    TournamentPhaseDetails:
       allOf:
         - $ref: '#/components/schemas/LeagueBasePhase'
         - type: object
@@ -443,6 +442,16 @@ components:
               items:
                 $ref: '#/components/schemas/ClassificationGroup'
 
+    ClassificationPhaseDetails:
+      allOf:
+        - $ref: '#/components/schemas/LeagueBasePhase'
+        - $ref: '#/components/schemas/LeaderboardResponse'
+        - type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClassificationGroup'
 
     ClassificationGroup:
       type: object
