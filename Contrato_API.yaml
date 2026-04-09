@@ -202,23 +202,19 @@ components:
               license:
                 type: string
 
-
-    UserLoginRequest:
+    UserSummary:
       type: object
-      required: [
-        email,
-        password
-      ]
+      required: [id, fullName, category, profileImageUrl]
       properties:
-        email:
+        id:
+          type: integer
+        fullName:
           type: string
-          format: email
-          maxLength: 50
-        password:
+        category:
           type: string
-          format: password
-          maxLength: 50
-
+        profileImageUrl:
+          type: string
+          format: uri
 
     UserAuthResponse:
       type: object
