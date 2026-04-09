@@ -930,18 +930,16 @@ components:
 
   responses:
     BadRequest:
-      description: "Los datos enviados son incorrectos o el formulario es inválido."
+      description: 'Los datos enviados son incorrectos o el formulario es inválido.'
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/FormErrorResponse'
     Unauthorized:
-      description: "Es necesario iniciar sesión"
-
+      description: 'Es necesario iniciar sesión'
 
 security:
   - bearerAuth: []
-
 
 paths:
   # ==========================================
@@ -961,11 +959,11 @@ paths:
               $ref: '#/components/schemas/UserCreateRequest'
       responses:
         '201':
-          description: "Usuario creado con éxito"
+          description: 'Usuario creado con éxito'
         '400':
           $ref: '#/components/responses/BadRequest'
         '409':
-          description: "El email ya está registrado."
+          description: 'El email ya está registrado.'
 
   /auth/login:
     post:
@@ -981,13 +979,13 @@ paths:
               $ref: '#/components/schemas/UserLoginRequest'
       responses:
         '200':
-          description: "Devuelve el JWT Token"
+          description: 'Devuelve el JWT Token'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserAuthResponse'
         '401':
-          description: "Credenciales inválidas"
+          description: 'Credenciales inválidas'
           content:
             application/json:
               schema:
@@ -1009,18 +1007,18 @@ paths:
                   type: string
       responses:
         '200':
-          description: "Usuario creado con éxito"
+          description: 'Usuario creado con éxito'
         '400':
           $ref: '#/components/responses/BadRequest'
         '502':
-          description: "El servicio ha sufrido un error"
+          description: 'El servicio ha sufrido un error'
         '503':
-          description: "Servicio no disponible"
+          description: 'Servicio no disponible'
 
   /users/me/signature:
     put:
       summary: Actualizar la firma del usuario
-      description: "Pide una URL prefirmada al backend para persistir la imagen de la firma y sube la URL para acceder desde el sistema S3."
+      description: 'Pide una URL prefirmada al backend para persistir la imagen de la firma y sube la URL para acceder desde el sistema S3.'
       tags:
         - Usuarios
       requestBody:
@@ -1602,9 +1600,9 @@ paths:
             application/json:
               schema:
                 allOf:
-                - $ref: '#/components/schemas/TeamDetails'
-                - $ref: '#/components/schemas/TeamMembersDetails'
-              
+                  - $ref: '#/components/schemas/TeamDetails'
+                  - $ref: '#/components/schemas/TeamMembersDetails'
+
         '404':
           description: 'Equipo no encontrado.'
     delete:
@@ -2265,10 +2263,11 @@ paths:
                 $ref: '#/components/schemas/DateTimeSlot'
       responses:
         '200':
-          description: "Disponibilidad del participante guardada correctamente."
+          description: 'Disponibilidad del participante guardada correctamente.'
         '400':
-          description: "Alguna de las franjas elegidas no está dentro de la disponibilidad permitida por la liga."
+          description: 'Alguna de las franjas elegidas no está dentro de la disponibilidad permitida por la liga.'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
-          description: "Prohibido: Un usuario solo puede modificar su propia disponibilidad."
+          description: 'Prohibido: Un usuario solo puede modificar su propia disponibilidad.'
+
