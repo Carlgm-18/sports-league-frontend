@@ -176,7 +176,15 @@ components:
     UserDetails:
       type: object
       required:
+        [
           userId,
+          fullName,
+          email,
+          profileImageUrl,
+          category,
+          createdAt,
+          licenses,
+        ]
       properties:
         userId:
           type: integer
@@ -320,7 +328,8 @@ components:
 
     ConfigurationCreateRequest:
       type: object
-      required: [category, minTeamMembers, maxTeamMembers, roundDuration, sportName]
+      required:
+        [category, minTeamMembers, maxTeamMembers, roundDuration, sportName]
       properties:
         category:
           $ref: '#/components/schemas/LeagueCategory'
@@ -360,7 +369,8 @@ components:
 
     ConfigurationDetails:
       type: object
-      required: [category, minTeamMembers, maxTeamMembers, roundDuration, sportName]
+      required:
+        [category, minTeamMembers, maxTeamMembers, roundDuration, sportName]
       properties:
         category:
           $ref: '#/components/schemas/LeagueCategory'
@@ -530,7 +540,7 @@ components:
           endDate,
           maxInscriptionDate,
           status,
-          category
+          category,
         ]
       properties:
         leagueId:
@@ -689,7 +699,8 @@ components:
 
     BaseRequest:
       type: object
-      required: [requestId, participantId, leagueId, createdAt, resolvedAt, message]
+      required:
+        [requestId, participantId, leagueId, createdAt, resolvedAt, message]
       properties:
         requestId:
           type: integer
@@ -929,7 +940,7 @@ components:
           type: integer
         periodType:
           type: string
-          description: "Ej: HALF, QUARTER, SET"
+          description: 'Ej: HALF, QUARTER, SET'
         events:
           type: array
           items:
@@ -940,7 +951,8 @@ components:
 
     MatchEvent:
       type: object
-      required: [happenedAtTime, atLocalScore, atVisitorScore, responsibleTeamId]
+      required:
+        [happenedAtTime, atLocalScore, atVisitorScore, responsibleTeamId]
       properties:
         happenedAtTime:
           type: integer
@@ -1090,7 +1102,6 @@ components:
           discriminator:
             propertyName: type
 
-
     RoundDetails:
       type: object
       required: [roundId, roundNumber, startDate]
@@ -1099,11 +1110,11 @@ components:
           type: integer
         roundNumber:
           type: integer
-          description: "Jornada 1, Jornada 2, etc."
+          description: 'Jornada 1, Jornada 2, etc.'
         startDate:
           type: string
           format: date
-          description: "Día en que empieza dicha ronda"
+          description: 'Día en que empieza dicha ronda'
 
   responses:
     BadRequest:
