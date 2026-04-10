@@ -790,9 +790,9 @@ components:
         roundId:
           type: integer
         firstReferee:
-          $ref: '#/components/schemas/ParticipationDetails'
+          $ref: '#/components/schemas/ParticipantDetails'
         secondReferee:
-          $ref: '#/components/schemas/ParticipationDetails'
+          $ref: '#/components/schemas/ParticipantDetails'
         resultResumee:
           $ref: '#/components/schemas/ResultResumee'
         completeResult:
