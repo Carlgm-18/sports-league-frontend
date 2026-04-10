@@ -802,17 +802,17 @@ components:
     MatchDetails:
       type: object
       required: [
-        matchId,
-        status,
-        localTeam
-        visitorTeam,
-        dateTime,
-        proposal,
-        roundId,
-        firstReferee,
-        resultSummary,
-        resultDetails,
-      ]
+          matchId,
+          status,
+          localTeam
+          visitorTeam,
+          dateTime,
+          proposal,
+          roundId,
+          firstReferee,
+          resultSummary,
+          resultDetails,
+        ]
       properties:
         matchId:
           type: integer
@@ -840,16 +840,16 @@ components:
     MatchSummary:
       type: object
       required: [
-        matchId,
-        status,
-        localTeam
-        visitorTeam,
-        dateTime,
-        proposal,
-        roundId,
-        firstReferee,
-        resultSummary,
-      ]
+          matchId,
+          status,
+          localTeam
+          visitorTeam,
+          dateTime,
+          proposal,
+          roundId,
+          firstReferee,
+          resultSummary,
+        ]
       properties:
         matchId:
           type: integer
