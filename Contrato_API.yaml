@@ -776,6 +776,18 @@ components:
 
     MatchDetails:
       type: object
+      required: [
+        matchId,
+        status,
+        localTeam
+        visitorTeam,
+        dateTime,
+        proposal,
+        roundId,
+        firstReferee,
+        resultSummary,
+        resultDetails,
+      ]
       properties:
         status:
           $ref: '#/components/schemas/MatchState'
