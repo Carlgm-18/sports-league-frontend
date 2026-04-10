@@ -812,6 +812,43 @@ components:
         resultDetails:
           $ref: '#/components/schemas/ResultDetails'
 
+    MatchSummary:
+      type: object
+      required: [
+        matchId,
+        status,
+        localTeam
+        visitorTeam,
+        dateTime,
+        proposal,
+        roundId,
+        firstReferee,
+        resultSummary,
+      ]
+      properties:
+        matchId:
+          type: integer
+        status:
+          $ref: '#/components/schemas/MatchState'
+        localTeam:
+          $ref: '#/components/schemas/TeamSummary'
+        visitorTeam:
+          $ref: '#/components/schemas/TeamSummary'
+        dateTime:
+          $ref: '#/components/schemas/DateTimeSlot'
+        proposal:
+          $ref: '#/components/schemas/MatchDateProposalDetails'
+        roundId:
+          type: integer
+        firstReferee:
+          $ref: '#/components/schemas/ParticipantDetails'
+        secondReferee:
+          $ref: '#/components/schemas/ParticipantDetails'
+        resultSummary:
+          $ref: '#/components/schemas/ResultSummary'
+        resultDetails:
+          $ref: '#/components/schemas/ResultDetails'
+
     ResultSummary:
       type: object
       required: [localTotalScore, visitorTotalScore, recordUrl]
