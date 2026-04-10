@@ -789,6 +789,8 @@ components:
         resultDetails,
       ]
       properties:
+        matchId:
+          type: integer
         status:
           $ref: '#/components/schemas/MatchState'
         localTeam:
