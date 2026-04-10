@@ -596,7 +596,7 @@ components:
           leagueId,
         ]
       properties:
-        id:
+        teamId:
           type: integer
         name:
           type: string
@@ -632,7 +632,7 @@ components:
       type: object
       required:
         [
-          id,
+          teamId,
           name,
           initials,
           motto,
@@ -641,7 +641,7 @@ components:
           iconImageUrl,
         ]
       properties:
-        id:
+        teamId:
           type: integer
         name:
           type: string
