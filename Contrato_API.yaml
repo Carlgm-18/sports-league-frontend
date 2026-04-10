@@ -599,7 +599,7 @@ components:
       type: object
       required:
         [
-          id,
+          teamId,
           name,
           initials,
           description,
