@@ -1028,9 +1028,9 @@ components:
 
     RoundDetails:
       type: object
-      required: [id, roundNumber, startDate]
+      required: [roundId, roundNumber, startDate]
       properties:
-        id:
+        roundId:
           type: integer
         roundNumber:
           type: integer
