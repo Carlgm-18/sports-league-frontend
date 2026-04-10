@@ -769,7 +769,7 @@ components:
           $ref: '#/components/schemas/DateTimeSlot'
         proposedAt:
           type: string
-          format: uri
+          format: date-time
         resolvedAt:
           type: string
           format: uri
