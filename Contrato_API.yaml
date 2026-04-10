@@ -176,9 +176,9 @@ components:
     UserDetails:
       type: object
       required:
-        [id, fullName, email, profileImageUrl, category, createdAt, licenses]
+          userId,
       properties:
-        id:
+        userId:
           type: integer
         fullName:
           type: string
@@ -204,9 +204,9 @@ components:
 
     UserSummary:
       type: object
-      required: [id, fullName, category, profileImageUrl]
+      required: [userId, fullName, category, profileImageUrl]
       properties:
-        id:
+        userId:
           type: integer
         fullName:
           type: string
