@@ -675,8 +675,10 @@ components:
 
     BaseRequest:
       type: object
-      required: [participantId, leagueId, createdAt, resolvedAt, message]
+      required: [requestId, participantId, leagueId, createdAt, resolvedAt, message]
       properties:
+        requestId:
+          type: integer
         participantId:
           type: integer
         leagueId:
