@@ -772,7 +772,7 @@ components:
           format: date-time
         resolvedAt:
           type: string
-          format: uri
+          format: date-time
 
     MatchDetails:
       type: object
