@@ -747,6 +747,8 @@ components:
       type: object
       required: [status, proposedAt]
       properties:
+        requestId:
+          type: integer
         dateTimeSlot:
           $ref: '#/components/schemas/DateTimeSlot'
 
@@ -754,6 +756,8 @@ components:
       type: object
       required: [status, proposedAt]
       properties:
+        requestId:
+          type: integer
         status:
           $ref: '#/components/schemas/ProposalState'
         proposedAt:
