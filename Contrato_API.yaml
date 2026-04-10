@@ -795,7 +795,7 @@ components:
           $ref: '#/components/schemas/ParticipantDetails'
         resultSummary:
           $ref: '#/components/schemas/ResultSummary'
-        completeResult:
+        resultDetails:
           $ref: '#/components/schemas/ResultDetails'
 
     ResultSummary:
