@@ -133,7 +133,7 @@ export interface UserLoginRequest {
 }
 
 export interface UserDetails {
-  id: number;
+  userId: number;
   fullName: string;
   /** @format email */
   email: string;
@@ -148,7 +148,7 @@ export interface UserDetails {
 }
 
 export interface UserSummary {
-  id: number;
+  userId: number;
   fullName: string;
   category: string;
   /** @format uri */
@@ -296,7 +296,7 @@ export interface ClassificationGroup {
 }
 
 export interface LeagueDetails {
-  id: number;
+  leagueId: number;
   name: string;
   description: string;
   /** @format uri */
@@ -319,7 +319,7 @@ export interface LeagueDetails {
 }
 
 export interface LeagueSummary {
-  id: number;
+  leagueId: number;
   name: string;
   description: string;
   /** @format uri */
@@ -348,8 +348,16 @@ export interface ParticipantDetails {
   joinDate: string;
 }
 
+export interface ParticipantSummary {
+  participantId: number;
+  fullName?: string;
+  team: TeamSummary;
+  /** Número del dorsal del jugador cuando está en un equipo */
+  dorsal: number;
+}
+
 export interface TeamDetails {
-  id: number;
+  teamId: number;
   name: string;
   /**
    * @format regex
@@ -379,7 +387,7 @@ export interface TeamDetails {
 }
 
 export interface TeamSummary {
-  id: number;
+  teamId: number;
   name: string;
   /**
    * @format regex
@@ -408,6 +416,7 @@ export interface TeamMembersDetails {
 }
 
 export interface BaseRequest {
+  requestId: number;
   participantId: number;
   leagueId: number;
   /** @format date-time */
@@ -450,38 +459,59 @@ export type RefereeRequest = BaseRequest & {
 };
 
 export interface MatchDateProposalRequest {
-  dateTimeSlot?: DateTimeSlot;
+  requestId?: number;
+  status: ProposalState;
+  dateTimeSlot: DateTimeSlot;
+  /** @format date-time */
+  proposedAt: string;
 }
 
 export interface MatchDateProposalDetails {
+  requestId?: number;
   status: ProposalState;
-  /** @format uri */
+  dateTimeSlot: DateTimeSlot;
+  /** @format date-time */
   proposedAt: string;
-  /** @format uri */
+  /** @format date-time */
   resolvedAt?: string;
 }
 
 export interface MatchDetails {
-  status?: MatchState;
+  matchId: number;
+  status: MatchState;
   localTeam?: TeamSummary;
   visitorTeam?: TeamSummary;
-  dateTime?: DateTimeSlot;
-  proposal?: MatchDateProposalDetails;
-  roundId?: number;
-  firstReferee?: any;
-  secondReferee?: any;
-  resultResumee?: ResultResumee;
-  completeResult?: ResultDetails;
+  dateTime: DateTimeSlot;
+  proposal: MatchDateProposalDetails;
+  roundId: number;
+  firstReferee: ParticipantDetails;
+  secondReferee?: ParticipantDetails;
+  resultSummary: ResultSummary;
+  resultDetails: ResultDetails;
 }
 
-export interface ResultResumee {
+export interface MatchSummary {
+  matchId: number;
+  status: MatchState;
+  localTeam?: TeamSummary;
+  visitorTeam?: TeamSummary;
+  dateTime: DateTimeSlot;
+  proposal: MatchDateProposalDetails;
+  roundId: number;
+  firstReferee: ParticipantDetails;
+  secondReferee?: ParticipantDetails;
+  resultSummary: ResultSummary;
+  resultDetails?: ResultDetails;
+}
+
+export interface ResultSummary {
   localTotalScore: number;
   visitorTotalScore: number;
   /** @format uri */
   recordUrl: string;
 }
 
-export type ResultDetails = ResultResumee & {
+export type ResultDetails = ResultSummary & {
   signatures: {
     beforeMatchSignatures: MatchSignatures;
     afterMatchSignatures: MatchSignatures;
@@ -587,7 +617,7 @@ export interface PhaseDetails {
 }
 
 export interface RoundDetails {
-  id: number;
+  roundId: number;
   /** Jornada 1, Jornada 2, etc. */
   roundNumber: number;
   /**
