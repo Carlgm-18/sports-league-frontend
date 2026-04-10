@@ -793,12 +793,12 @@ components:
           $ref: '#/components/schemas/ParticipantDetails'
         secondReferee:
           $ref: '#/components/schemas/ParticipantDetails'
-        resultResumee:
-          $ref: '#/components/schemas/ResultResumee'
+        resultSummary:
+          $ref: '#/components/schemas/ResultSummary'
         completeResult:
           $ref: '#/components/schemas/ResultDetails'
 
-    ResultResumee:
+    ResultSummary:
       type: object
       required: [localTotalScore, visitorTotalScore, recordUrl]
       properties:
@@ -812,7 +812,7 @@ components:
 
     ResultDetails:
       allOf:
-        - $ref: '#/components/schemas/ResultResumee'
+        - $ref: '#/components/schemas/ResultSummary'
         - type: object
           required: [signatures, observations, periods]
           properties:
