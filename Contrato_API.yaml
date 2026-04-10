@@ -581,6 +581,20 @@ components:
           type: string
           format: date-time
 
+    ParticipantSummary:
+      type: object
+      required: [participantId, team, dorsal, roles, joinDate]
+      properties:
+        participantId:
+          type: integer
+        fullName:
+          type: string
+        team:
+          $ref: '#/components/schemas/TeamSummary'
+        dorsal:
+          type: integer
+          description: 'Número del dorsal del jugador cuando está en un equipo'
+
     TeamDetails:
       type: object
       required:
