@@ -468,7 +468,7 @@ components:
       type: object
       required:
         [
-          id,
+          leagueId,
           name,
           description,
           iconImageUrl,
@@ -482,7 +482,7 @@ components:
           configuration,
         ]
       properties:
-        id:
+        leagueId:
           type: integer
         name:
           type: string
@@ -520,7 +520,7 @@ components:
       type: object
       required:
         [
-          id,
+          leagueId,
           name,
           description,
           iconImageUrl,
@@ -533,7 +533,7 @@ components:
           category
         ]
       properties:
-        id:
+        leagueId:
           type: integer
         name:
           type: string
