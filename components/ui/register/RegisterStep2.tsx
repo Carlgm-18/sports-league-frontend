@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   // Selector Categoría
   toggleContainer: {
     flexDirection: 'row',
-    backgroundColor: '#F3F4F6', // Gris muy suave
+    backgroundColor: '#F3F4F6',
     borderRadius: 12,
     padding: 4,
     marginBottom: 32,
