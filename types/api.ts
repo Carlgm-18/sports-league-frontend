@@ -62,9 +62,11 @@ export interface DateTimeSlot {
   duration: number;
 }
 
-export interface ImageUrl {
+export interface SignImageUrl {
   /** @format uri */
-  imageUrl: string;
+  signImageUrl?: string;
+  /** @format date-time */
+  uploatAt?: string;
 }
 
 export interface FormErrorResponse {
@@ -97,9 +99,27 @@ export interface UserCreateRequest {
   email: string;
   /**
    * @format password
-   * @maxLength 50
+   * @minLength 10
+   * @maxLength 64
    */
   password: string;
+  category: UserCategory;
+  licenses?: {
+    sportName?: string;
+    license?: string;
+  }[];
+}
+
+export interface UserCreateResponse {
+  /** @maxLength 50 */
+  firstName: string;
+  /** @maxLength 50 */
+  lastName: string;
+  /**
+   * @format email
+   * @maxLength 50
+   */
+  email: string;
   category: UserCategory;
   licenses?: {
     sportName?: string;
@@ -137,10 +157,12 @@ export interface UserDetails {
   fullName: string;
   /** @format email */
   email: string;
-  category: string;
+  category: UserCategory;
+  /** @format date-time */
+  createdAt: string;
   /** @format uri */
   profileImageUrl: string;
-  signature?: ImageUrl;
+  signature?: SignImageUrl;
   licenses: {
     sportName?: string;
     license?: string;
@@ -188,7 +210,7 @@ export interface LeagueCreateRequest {
   maxInscriptionDate: string;
   configuration: ConfigurationCreateRequest;
   punctuationSystem?: PunctuationSystemCreateRequest;
-  phases: ClassificationPhase[];
+  phases: (TournamentPhaseDetails | ClassificationPhase)[];
 }
 
 export interface LeagueUpdateRequest {
@@ -208,7 +230,7 @@ export interface LeagueUpdateRequest {
   endDate?: string;
   /** @format date-time */
   maxInscriptionDate?: string;
-  phases?: ClassificationPhase[];
+  phases?: (TournamentPhaseDetails | ClassificationPhase)[];
 }
 
 export interface ConfigurationCreateRequest {
@@ -305,11 +327,11 @@ export interface LeagueDetails {
   bannerImageUrl: string;
   /** @format uri */
   locationUrl: string;
-  /** @format date-time */
+  /** @format date */
   startDate: string;
-  /** @format date-time */
+  /** @format date */
   endDate: string;
-  /** @format date-time */
+  /** @format date */
   maxInscriptionDate: string;
   status: LeagueState;
   /** @format date-time */
@@ -521,10 +543,10 @@ export type ResultDetails = ResultSummary & {
 };
 
 export interface MatchSignatures {
-  firstRefereeSignature: ImageUrl;
-  secondRefereeSignature: ImageUrl;
-  localCaptainSignature: ImageUrl;
-  visitorCaptainSignature: ImageUrl;
+  firstRefereeSignature: SignImageUrl;
+  secondRefereeSignature: SignImageUrl;
+  localCaptainSignature: SignImageUrl;
+  visitorCaptainSignature: SignImageUrl;
 }
 
 export interface MatchPeriod {
