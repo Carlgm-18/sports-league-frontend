@@ -23,14 +23,14 @@ export default function RegisterScreen() {
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    category: 'Masculino',
-    licenses: [] as { sport: string, number: string }[]
+    category: 'MALE',
+    licenses: [] as { sport: string; number: string }[],
   });
   const [response, setResponse] =
     useState<ApiResult<UserCreateResponse> | null>(null);
 
   const updateForm = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleRegister = async () => {
@@ -40,11 +40,11 @@ export default function RegisterScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.screenContainer} 
+    <KeyboardAvoidingView
+      style={styles.screenContainer}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F9FAFB',
   },
+
   scrollContent: {
     flexGrow: 1,
     justifyContent: 'center',
