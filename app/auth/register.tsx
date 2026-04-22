@@ -102,9 +102,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
-  contentContainer: {
+
+  columnsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     width: '100%',
-    maxWidth: 400,
-    alignItems: 'center',
+    maxWidth: 900,
+    gap: 24,
+    justifyContent: 'center',
+  },
+  column: {
+    flex: 1,
+    minWidth: 320, // Asegura que en móvil se coloquen uno debajo del otro
+  },
+
+  responseContainer: {
+    backgroundColor: '#F3F4F6',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+
+  responseSucces: {
+    fontSize: 16,
+    color: '#1faa07',
+    textAlign: 'center',
+  },
+
+  responseError: {
+    fontSize: 16,
+    color: '#DC2626',
+    textAlign: 'center',
   },
 });
