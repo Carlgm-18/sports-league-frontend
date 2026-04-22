@@ -57,15 +57,15 @@ export default function Step2({ formData, updateForm, onBack, onSubmit }: Step2P
       <View style={styles.toggleContainer}>
         <Pressable 
           style={[styles.toggleBtn, formData.category === 'Masculino' && styles.toggleBtnActive]}
-          onPress={() => updateForm('category', 'Masculino')}
+          onPress={() => updateForm('category', 'MALE')}
         >
-          <Text style={formData.category === 'Masculino' ? styles.toggleTextActive : styles.toggleText}>Masculino</Text>
+          <Text style={formData.category === 'MALE' ? styles.toggleTextActive : styles.toggleText}>Masculino</Text>
         </Pressable>
         <Pressable 
           style={[styles.toggleBtn, formData.category === 'Femenino' && styles.toggleBtnActive]}
-          onPress={() => updateForm('category', 'Femenino')}
+          onPress={() => updateForm('category', 'FEMALE')}
         >
-          <Text style={formData.category === 'Femenino' ? styles.toggleTextActive : styles.toggleText}>Femenino</Text>
+          <Text style={formData.category === 'FEMALE' ? styles.toggleTextActive : styles.toggleText}>Femenino</Text>
         </Pressable>
       </View>
 
