@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: 'bold', color: '#111827', marginBottom: 8 },
   subtitle: { fontSize: 16, color: '#6B7280', textAlign: 'center' },
   
-  // Inputs base (Igual que login)
+  // Inputs base
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
