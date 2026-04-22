@@ -1,8 +1,18 @@
-import { useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
 import RgisterStep1 from '@/components/ui/register/RegisterStep1';
 import RegisterStep2 from '@/components/ui/register/RegisterStep2';
+import { userRegister } from '@/services/UserService';
+import { UserCreateRequest, UserCreateResponse } from '@/types/api';
+import { ApiResult } from '@/types/own';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 
 export default function RegisterScreen() {
   const router = useRouter();
