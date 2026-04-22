@@ -31,33 +31,10 @@ export default function RegisterScreen() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleRegister = () => {
-    console.log('Enviando todo al backend:', formData);
-    router.replace('/');
-  };
-
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          <RgisterStep1 
-            formData={formData} 
-            updateForm={updateForm} 
-            onNext={() => setStep(2)} 
-          />
-        );
-      case 2:
-        return (
-          <RegisterStep2 
-            formData={formData} 
-            updateForm={updateForm} 
-            onBack={() => setStep(1)} 
-            onSubmit={handleRegister} 
-          />
-        );
-      default:
-        return null;
-    }
+  const handleRegister = async () => {
+    const { confirmPassword, ...request } = formData;
+    const result = await userRegister(request as UserCreateRequest);
+    setResponse(result);
   };
 
   return (
