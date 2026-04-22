@@ -49,7 +49,7 @@ export default function HomeScreen() {
         {...(numColumns > 1 ? { columnWrapperStyle: styles.gridRow } : {})}
         renderItem={({ item }) => (
           <Link
-            href={{ pathname: '/ligas/[id]', params: { id: item.id } }}
+            href={{ pathname: '/ligas/[leagueId]', params: { leagueId: item.id } }}
             asChild
           >
             <Pressable>
