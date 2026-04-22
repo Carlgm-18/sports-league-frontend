@@ -87,6 +87,44 @@ export default function RegisterScreen() {
           </View>
         </View>
       </ScrollView>
+      {response && (
+        <View style={styles.responseContainer}>
+          {response.ok ? (
+            <View>
+              <Text style={styles.responseSucces}>
+                Usuario registrado exitosamente
+              </Text>
+              {/* <Text>
+                Nombre completo: {response.data.firstName}{' '}
+                {response.data.lastName}
+              </Text>
+              <Text>
+                Email: {response.data.email}
+              </Text>
+              <Text>
+                Categoria: {response.data.category}
+              </Text>
+              <Text>
+                Licencias:
+                {response.data.licenses
+                  ? response.data.licenses
+                      .map((e, l) => `${e}: ${l}`)
+                      .join('\n')
+                  : 'Ninguna licencia especificada'}
+              </Text> */}
+            </View>
+          ) : (
+            <Text style={styles.responseError}>
+              {response.ok
+                ? 'Usuario registrado exitosamente'
+                : response.error
+                  ? `Codigo: ${response.error.errorCode}\n
+                    Mensaje: ${response.error.errorMessage}`
+                  : 'Error al registrar su usuario'}
+            </Text>
+          )}
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 }
