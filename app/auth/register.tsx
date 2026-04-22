@@ -26,6 +26,8 @@ export default function RegisterScreen() {
     category: 'Masculino',
     licenses: [] as { sport: string, number: string }[]
   });
+  const [response, setResponse] =
+    useState<ApiResult<UserCreateResponse> | null>(null);
 
   const updateForm = (field: string, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
