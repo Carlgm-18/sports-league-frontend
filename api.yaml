@@ -1,13 +1,13 @@
 openapi: 3.0.3
 info:
   title: API de Gestión de Ligas Deportivas (TFG)
-  version: 1.0.0
+  version: 1.1.0
   description: >
     API RESTful para el sistema de gestión deportiva.
     Incluye flujos de inscripción, gestión de roles (Administrador, Árbitro, Capitán, Jugador),
     máquina de estados para agendamiento de partidos y actas digitales con firmas.
 servers:
-  - url: http://localhost:8080/api/v1
+  - url: http://localhost:8079/api/v1
     description: Servidor de Desarrollo Local
 
 tags:
@@ -71,13 +71,17 @@ components:
       type: string
       enum: ['MALE', 'FEMALE']
 
-    ImageUrl:
+    SignImageUrl:
       type: object
       required: [imageUrl]
       properties:
-        imageUrl:
+        signImageUrl:
           type: string
           format: uri
+        uploatAt:
+          type: string
+          format: date-time
+
 
     FormErrorResponse:
       type: object
@@ -126,6 +130,33 @@ components:
         password:
           type: string
           format: password
+          minLength: 10
+          maxLength: 64
+        category:
+          $ref: '#/components/schemas/UserCategory'
+        licenses:
+          type: array
+          items:
+            type: object
+            properties:
+              sportName:
+                type: string
+              license:
+                type: string
+
+    UserCreateResponse:
+      type: object
+      required: [firstName, lastName, email, category]
+      properties:
+        firstName:
+          type: string
+          maxLength: 50
+        lastName:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
           maxLength: 50
         category:
           $ref: '#/components/schemas/UserCategory'
@@ -194,12 +225,15 @@ components:
           type: string
           format: email
         category:
+          $ref: '#/components/schemas/UserCategory'
+        createdAt:
           type: string
+          format: date-time
         profileImageUrl:
           type: string
           format: uri
         signature:
-          $ref: '#/components/schemas/ImageUrl'
+          $ref: '#/components/schemas/SignImageUrl'
         licenses:
           type: array
           items:
@@ -289,7 +323,7 @@ components:
           type: array
           items:
             anyOf:
-              - $ref: '#/components/schemas/TournamentPhase'
+              - $ref: '#/components/schemas/TournamentPhaseDetails'
               - $ref: '#/components/schemas/ClassificationPhase'
 
     LeagueUpdateRequest:
@@ -323,7 +357,7 @@ components:
           type: array
           items:
             anyOf:
-              - $ref: '#/components/schemas/TournamentPhase'
+              - $ref: '#/components/schemas/TournamentPhaseDetails'
               - $ref: '#/components/schemas/ClassificationPhase'
 
     ConfigurationCreateRequest:
@@ -509,13 +543,13 @@ components:
           format: uri
         startDate:
           type: string
-          format: date-time
+          format: date
         endDate:
           type: string
-          format: date-time
+          format: date
         maxInscriptionDate:
           type: string
-          format: date-time
+          format: date
         status:
           $ref: '#/components/schemas/LeagueState'
         createdAt:
@@ -920,13 +954,13 @@ components:
         ]
       properties:
         firstRefereeSignature:
-          $ref: '#/components/schemas/ImageUrl'
+          $ref: '#/components/schemas/SignImageUrl'
         secondRefereeSignature:
-          $ref: '#/components/schemas/ImageUrl'
+          $ref: '#/components/schemas/SignImageUrl'
         localCaptainSignature:
-          $ref: '#/components/schemas/ImageUrl'
+          $ref: '#/components/schemas/SignImageUrl'
         visitorCaptainSignature:
-          $ref: '#/components/schemas/ImageUrl'
+          $ref: '#/components/schemas/SignImageUrl'
 
     MatchPeriod:
       type: object
@@ -1214,7 +1248,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ImageUrl'
+              $ref: '#/components/schemas/SignImageUrl'
       responses:
         '200':
           description: 'Firma guardada'
