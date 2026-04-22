@@ -16,8 +16,7 @@ import {
 
 export default function RegisterScreen() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -70,8 +69,22 @@ export default function RegisterScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.contentContainer}>
-          {renderStep()}
+        <View style={styles.columnsContainer}>
+          <View style={styles.column}>
+            <RgisterStep1
+              formData={formData}
+              updateForm={updateForm}
+              onNext={() => {}} // Sugerencia: Eliminar el botón "Siguiente" dentro del componente
+            />
+          </View>
+          <View style={styles.column}>
+            <RegisterStep2
+              formData={formData}
+              updateForm={updateForm}
+              onBack={() => {}} // Sugerencia: Eliminar el botón "Atrás" dentro del componente
+              onSubmit={handleRegister}
+            />
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
