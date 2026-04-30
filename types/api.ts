@@ -1,4 +1,6 @@
-
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -69,6 +71,13 @@ export interface SignImageUrl {
   uploatAt?: string;
 }
 
+export interface LicenceElement {
+  sportName: string;
+  license: string;
+}
+
+export type LicensesList = LicenceElement[];
+
 export interface FormErrorResponse {
   /** @format date-time */
   timestamp: string;
@@ -103,11 +112,14 @@ export interface UserCreateRequest {
    * @maxLength 64
    */
   password: string;
+  /**
+   * @format password
+   * @minLength 10
+   * @maxLength 64
+   */
+  confirmPassword: string;
   category: UserCategory;
-  licenses?: {
-    sportName?: string;
-    license?: string;
-  }[];
+  licenses?: LicensesList;
 }
 
 export interface UserCreateResponse {
@@ -121,10 +133,7 @@ export interface UserCreateResponse {
    */
   email: string;
   category: UserCategory;
-  licenses?: {
-    sportName?: string;
-    license?: string;
-  }[];
+  licenses?: LicensesList;
 }
 
 export interface UserUpdateRequest {
@@ -133,10 +142,7 @@ export interface UserUpdateRequest {
   /** @maxLength 50 */
   lastName?: string;
   category?: UserCategory;
-  licenses?: {
-    sportName?: string;
-    license?: string;
-  }[];
+  licenses?: LicensesList;
 }
 
 export interface UserLoginRequest {
@@ -163,16 +169,13 @@ export interface UserDetails {
   /** @format uri */
   profileImageUrl: string;
   signature?: SignImageUrl;
-  licenses: {
-    sportName?: string;
-    license?: string;
-  }[];
+  licenses: LicensesList;
 }
 
 export interface UserSummary {
   userId: number;
   fullName: string;
-  category: string;
+  category: UserCategory;
   /** @format uri */
   profileImageUrl: string;
 }
@@ -188,7 +191,7 @@ export interface UserAuthResponse {
   expiresIn: number;
   /** @example "Bearer" */
   tokenType: string;
-  user: UserDetails;
+  user: UserSummary;
 }
 
 export interface LeagueCreateRequest {
