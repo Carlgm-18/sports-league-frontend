@@ -1,38 +1,44 @@
-import { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const DEPORTES = ['Voley', 'Fútbol', 'Pádel'];
 
 interface Step2Props {
   formData: any;
   updateForm: (field: string, value: any) => void;
-  onBack: () => void;
-  onSubmit: () => void;
 }
 
-export default function Step2({ formData, updateForm, onBack, onSubmit }: Step2Props) {
-  const [tempLicense, setTempLicense] = useState({ sport: DEPORTES[0], number: '' });
+export default function Step2({ formData, updateForm }: Step2Props) {
+  const [tempLicense, setTempLicense] = useState({
+    sport: DEPORTES[0],
+    number: '',
+  });
 
   const handleAddLicense = () => {
     if (!tempLicense.number.trim()) return;
     updateForm('licenses', [...formData.licenses, tempLicense]);
-    setTempLicense(prev => ({ ...prev, number: '' }));
+    setTempLicense((prev) => ({ ...prev, number: '' }));
   };
 
   const handleRemoveLicense = (indexToRemove: number) => {
-    updateForm('licenses', formData.licenses.filter((_: any, index: number) => index !== indexToRemove));
+    updateForm(
+      'licenses',
+      formData.licenses.filter(
+        (_: any, index: number) => index !== indexToRemove,
+      ),
+    );
   };
 
   return (
     <View style={styles.formContainer}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.title}>Crear cuenta</Text>
-        <Text style={styles.subtitle}>Paso 2 de 2: Información personal</Text>
-      </View>
-
       <View style={styles.inputContainer}>
-        <Ionicons name="person-outline" size={20} color="#666" style={styles.icon} />
+        <Ionicons
+          name="person-outline"
+          size={20}
+          color="#666"
+          style={styles.icon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Nombre"
@@ -43,7 +49,12 @@ export default function Step2({ formData, updateForm, onBack, onSubmit }: Step2P
       </View>
 
       <View style={styles.inputContainer}>
-        <Ionicons name="people-outline" size={20} color="#666" style={styles.icon} />
+        <Ionicons
+          name="people-outline"
+          size={20}
+          color="#666"
+          style={styles.icon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Apellidos"
@@ -53,45 +64,82 @@ export default function Step2({ formData, updateForm, onBack, onSubmit }: Step2P
         />
       </View>
 
-      {/* Selector de Categoría */}
       <View style={styles.toggleContainer}>
-        <Pressable 
-          style={[styles.toggleBtn, formData.category === 'Masculino' && styles.toggleBtnActive]}
+        <Pressable
+          style={[
+            styles.toggleBtn,
+            formData.category === 'Masculino' && styles.toggleBtnActive,
+          ]}
           onPress={() => updateForm('category', 'MALE')}
         >
-          <Text style={formData.category === 'MALE' ? styles.toggleTextActive : styles.toggleText}>Masculino</Text>
+          <Text
+            style={
+              formData.category === 'MALE'
+                ? styles.toggleTextActive
+                : styles.toggleText
+            }
+          >
+            Masculino
+          </Text>
         </Pressable>
-        <Pressable 
-          style={[styles.toggleBtn, formData.category === 'Femenino' && styles.toggleBtnActive]}
+        <Pressable
+          style={[
+            styles.toggleBtn,
+            formData.category === 'Femenino' && styles.toggleBtnActive,
+          ]}
           onPress={() => updateForm('category', 'FEMALE')}
         >
-          <Text style={formData.category === 'FEMALE' ? styles.toggleTextActive : styles.toggleText}>Femenino</Text>
+          <Text
+            style={
+              formData.category === 'FEMALE'
+                ? styles.toggleTextActive
+                : styles.toggleText
+            }
+          >
+            Femenino
+          </Text>
         </Pressable>
       </View>
 
       {/* Sección Árbitro */}
       <View style={styles.refereeSection}>
         <Text style={styles.refereeTitle}>¿Eres árbitro?</Text>
-        
+
         <View style={styles.inputContainer}>
-          <Ionicons name="card-outline" size={20} color="#666" style={styles.icon} />
+          <Ionicons
+            name="card-outline"
+            size={20}
+            color="#666"
+            style={styles.icon}
+          />
           <TextInput
             style={styles.input}
             placeholder="Número de licencia"
             placeholderTextColor="#999"
             value={tempLicense.number}
-            onChangeText={(text) => setTempLicense({...tempLicense, number: text})}
+            onChangeText={(text) =>
+              setTempLicense({ ...tempLicense, number: text })
+            }
           />
         </View>
 
         <View style={styles.sportsContainer}>
-          {DEPORTES.map(deporte => (
-            <Pressable 
+          {DEPORTES.map((deporte) => (
+            <Pressable
               key={deporte}
-              style={[styles.sportChip, tempLicense.sport === deporte && styles.sportChipActive]}
-              onPress={() => setTempLicense({...tempLicense, sport: deporte})}
+              style={[
+                styles.sportChip,
+                tempLicense.sport === deporte && styles.sportChipActive,
+              ]}
+              onPress={() => setTempLicense({ ...tempLicense, sport: deporte })}
             >
-              <Text style={tempLicense.sport === deporte ? styles.sportChipTextActive : styles.sportChipText}>
+              <Text
+                style={
+                  tempLicense.sport === deporte
+                    ? styles.sportChipTextActive
+                    : styles.sportChipText
+                }
+              >
                 {deporte}
               </Text>
             </Pressable>
@@ -105,21 +153,17 @@ export default function Step2({ formData, updateForm, onBack, onSubmit }: Step2P
 
         {formData.licenses.map((lic: any, index: number) => (
           <View key={index} style={styles.licenseItem}>
-            <Text style={styles.licenseItemText}>{lic.sport} - #{lic.number}</Text>
-            <Pressable onPress={() => handleRemoveLicense(index)} style={styles.deleteIcon}>
+            <Text style={styles.licenseItemText}>
+              {lic.sport} - #{lic.number}
+            </Text>
+            <Pressable
+              onPress={() => handleRemoveLicense(index)}
+              style={styles.deleteIcon}
+            >
               <Ionicons name="trash-outline" size={20} color="#EF4444" />
             </Pressable>
           </View>
         ))}
-      </View>
-
-      <View style={styles.bottomNav}>
-        <Pressable style={styles.backButton} onPress={onBack}>
-          <Text style={styles.backButtonText}>Atrás</Text>
-        </Pressable>
-        <Pressable style={styles.primaryButton} onPress={onSubmit}>
-          <Text style={styles.primaryButtonText}>Crear cuenta</Text>
-        </Pressable>
       </View>
     </View>
   );
@@ -127,10 +171,7 @@ export default function Step2({ formData, updateForm, onBack, onSubmit }: Step2P
 
 const styles = StyleSheet.create({
   formContainer: { width: '100%' },
-  headerContainer: { marginBottom: 40, alignItems: 'center' },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#111827', marginBottom: 8 },
-  subtitle: { fontSize: 16, color: '#6B7280', textAlign: 'center' },
-  
+
   // Inputs base
   inputContainer: {
     flexDirection: 'row',
@@ -181,8 +222,18 @@ const styles = StyleSheet.create({
     borderColor: '#E5E7EB',
     marginBottom: 24,
   },
-  refereeTitle: { fontSize: 18, fontWeight: 'bold', color: '#111827', marginBottom: 16, textAlign: 'center' },
-  sportsContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 },
+  refereeTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#111827',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  sportsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
   sportChip: {
     flex: 1,
     paddingVertical: 10,
@@ -194,7 +245,7 @@ const styles = StyleSheet.create({
   sportChipActive: { backgroundColor: '#2196F3' },
   sportChipText: { color: '#6B7280', fontWeight: '500' },
   sportChipTextActive: { color: '#FFFFFF', fontWeight: 'bold' },
-  
+
   licenseItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -222,26 +273,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   secondaryButtonText: { color: '#111827', fontSize: 15, fontWeight: '600' },
-  
-  bottomNav: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 16 },
-  backButton: {
-    flex: 1,
-    backgroundColor: '#F3F4F6',
-    borderRadius: 12,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 8,
-  },
-  backButtonText: { color: '#4B5563', fontSize: 16, fontWeight: 'bold' },
-  primaryButton: {
-    flex: 1,
-    backgroundColor: '#2196F3',
-    borderRadius: 12,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 8,
-  },
-  primaryButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: 'bold' },
 });
