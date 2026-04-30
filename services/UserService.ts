@@ -1,4 +1,9 @@
-import { UserCreateRequest, UserCreateResponse } from '@/types/api';
+import {
+  UserAuthResponse,
+  UserCreateRequest,
+  UserCreateResponse,
+  UserDetails,
+} from '@/types/api';
 import { apiClient } from './ApiClient';
 import { ApiResult } from '@/types/own';
 
