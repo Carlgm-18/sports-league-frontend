@@ -1,4 +1,5 @@
-//import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
+
 import { type ApiResult } from '@/types/own';
 
 const API_BASE_URL = 'http://localhost:8079/api/v1';
@@ -8,12 +9,11 @@ const getStandardHeaders = async (): Promise<HeadersInit> => {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
-  // const token = await SecureStore.getItemAsync('jwt_token');
-  // if (token) headers['Authorization'] = `Bearer ${token}`;
+  const token = await SecureStore.getItemAsync('jwt_token');
+  if (token) headers['Authorization'] = `Bearer ${token}`;
   return headers;
 };
 
-// Función auxiliar unificada que devuelve nuestro ApiResult
 const handleResponse = async <T>(response: Response): Promise<ApiResult<T>> => {
   if (response.status === 401) {
     // await SecureStore.deleteItemAsync('jwt_token');
