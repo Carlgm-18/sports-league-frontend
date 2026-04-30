@@ -1,30 +1,30 @@
-import RgisterStep1 from '@/components/ui/register/RegisterStep1';
+import RegisterStep1 from '@/components/ui/register/RegisterStep1';
 import RegisterStep2 from '@/components/ui/register/RegisterStep2';
 import { userRegister } from '@/services/UserService';
-import { UserCreateRequest, UserCreateResponse } from '@/types/api';
+import { UserCategory, UserCreateRequest, UserCreateResponse } from '@/types/api';
 import { ApiResult } from '@/types/own';
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
+
 import { useState } from 'react';
 import {
     KeyboardAvoidingView,
     Platform,
+    Pressable,
     ScrollView,
     StyleSheet,
     Text,
     View,
-} from 'react-native';
+} from 'react-native'; 
 
 export default function RegisterScreen() {
-  const router = useRouter();
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserCreateRequest>({
     email: '',
     password: '',
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    category: 'MALE',
-    licenses: [] as { sport: string; number: string }[],
+    category: UserCategory.MALE,
+    licenses: [],
   });
   const [response, setResponse] =
     useState<ApiResult<UserCreateResponse> | null>(null);
@@ -34,8 +34,7 @@ export default function RegisterScreen() {
   };
 
   const handleRegister = async () => {
-    const { confirmPassword, ...request } = formData;
-    const result = await userRegister(request as UserCreateRequest);
+    const result = await userRegister(formData);
     setResponse(result);
   };
 
@@ -48,21 +47,34 @@ export default function RegisterScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <View style={styles.headerContainer}>
+          <Text style={styles.title}>Crear cuenta</Text>
+          <Text style={styles.subtitle}>
+            Únete para gestionar tus ligas y equipos
+          </Text>
+        </View>
+
         <View style={styles.columnsContainer}>
           <View style={styles.column}>
-            <RgisterStep1
-              formData={formData}
-              updateForm={updateForm}
-              onNext={() => {}} // Sugerencia: Eliminar el botón "Siguiente" dentro del componente
-            />
+            <RegisterStep1 formData={formData} updateForm={updateForm} />
           </View>
           <View style={styles.column}>
-            <RegisterStep2
-              formData={formData}
-              updateForm={updateForm}
-              onBack={() => {}} // Sugerencia: Eliminar el botón "Atrás" dentro del componente
-              onSubmit={handleRegister}
-            />
+            <RegisterStep2 formData={formData} updateForm={updateForm} />
+          </View>
+        </View>
+
+        <View style={styles.footerContainer}>
+          <Pressable style={styles.primaryButton} onPress={handleRegister}>
+            <Text style={styles.primaryButtonText}>Crear cuenta</Text>
+          </Pressable>
+
+          <View style={styles.loginLinkContainer}>
+            <Text style={styles.footerText}>¿Ya tienes cuenta? </Text>
+            <Link href="/auth/login" asChild>
+              <Pressable>
+                <Text style={styles.loginText}>Iniciar sesión</Text>
+              </Pressable>
+            </Link>
           </View>
         </View>
       </ScrollView>
@@ -121,6 +133,22 @@ const styles = StyleSheet.create({
     padding: 24,
   },
 
+  headerContainer: {
+    marginBottom: 40,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#111827',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6B7280',
+    textAlign: 'center',
+  },
+
   columnsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -132,6 +160,38 @@ const styles = StyleSheet.create({
   column: {
     flex: 1,
     minWidth: 320, // Asegura que en móvil se coloquen uno debajo del otro
+  },
+
+  footerContainer: {
+    width: '100%',
+    maxWidth: 900,
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  primaryButton: {
+    backgroundColor: '#2196F3',
+    borderRadius: 12,
+    height: 56,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 400,
+  },
+  primaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  loginLinkContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 24,
+  },
+  footerText: { color: '#6B7280', fontSize: 15 },
+  loginText: {
+    color: '#2196F3',
+    fontSize: 15,
+    fontWeight: 'bold',
   },
 
   responseContainer: {
