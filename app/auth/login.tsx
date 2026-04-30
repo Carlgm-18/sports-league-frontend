@@ -1,5 +1,6 @@
+import { useAuth } from '@/hooks/authProvider';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { useState } from 'react';
 import {
     KeyboardAvoidingView,
@@ -12,14 +13,23 @@ import {
 } from 'react-native';
 
 export default function LoginScreen() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
 
-  const handleLogin = () => {
-    // Tu lógica aquí...
-    console.log('Enviando...', email, password);
-    router.replace('/');
+  const handleLogin = async () => {
+    setError(null); // Limpia errores previos
+    const result = await login(email, password);
+
+    if (!result.ok) {
+        // Si el login falla, muestra un error al usuario.
+        // La redirección no ocurrirá.
+        const errorMessage = result.error?.errorMessage || 'Credenciales incorrectas. Inténtalo de nuevo.';
+        setError(errorMessage);
+    }
+    // Si el login es exitoso, el useEffect del AuthProvider se encargará
+    //
   };
 
   return (
