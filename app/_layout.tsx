@@ -22,13 +22,8 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
         <SafeAreaView style={{ flex: 1 }}>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="ligas/[leagueId]" options={{ headerShown: false }} />
-            <Stack.Screen name="profile" options={{ headerShown: false }} />
-            <Stack.Screen name="auth/login" options={{ headerShown: false }} />
-            <Stack.Screen name="auth/register" options={{ headerShown: false }} />
-            <Stack.Screen name="user/me" options={{ headerShown: false }} />
+            <Stack.Screen name="index" />
+            <Stack.Screen name="leagues/[leagueId]" />
           </Stack>
         </SafeAreaView>
         <StatusBar style="auto" />
