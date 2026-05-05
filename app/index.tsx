@@ -1,12 +1,14 @@
-import { LeagueCard, LEAGUE_CARD_WIDTH } from '@/components/ui/LeagueCard';
+import { LEAGUE_CARD_WIDTH, LeagueCard } from '@/components/ui/LeagueCard';
 import { LoginButton } from '@/components/ui/LoginButton';
-import { Link } from 'expo-router';
+import CreateLeagueButton from '@/components/ui/league/CreateLeagueButton';
+import { useAuth } from '@/hooks/authProvider';
+import { Link, useRouter } from 'expo-router';
 import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  useWindowDimensions,
-  View,
+    FlatList,
+    Pressable,
+    StyleSheet,
+    useWindowDimensions,
+    View,
 } from 'react-native';
 
 const MOCK_LEAGUES = [
@@ -16,7 +18,7 @@ const MOCK_LEAGUES = [
     id: 3,
     name: 'Liga de Verano',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta leo vitae nibh condimentum, sit amet dignissim turpis luctus. Nam hendrerit in libero id ultrices. Sed ac dui et magna scelerisque pulvinar. Vivamus lobortis ligula eu metus pellentesque pharetra. Maecenas at erat et libero malesuada tincidunt sed finibus erat. Vivamus molestie nisi vel justo porta suscipit. Donec et diam ac metus euismod malesuada eget ut erat. Vestibulum pretium sit amet nisl quis tempus. In feugiat mauris ut venenatis venenatis. Fusce ultricies sollicitudin turpis, at accumsan tellus mollis vel. Integer eget scelerisque sapien. Curabitur lacus nunc, fermentum nec congue in, sodales.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta leo',
   },
   { id: 4, name: 'Liga de Verano', description: 'Partidos amistosos' },
   { id: 5, name: 'Liga de Verano', description: 'Partidos amistosos' },
@@ -50,7 +52,10 @@ export default function HomeScreen() {
         {...(numColumns > 1 ? { columnWrapperStyle: styles.gridRow } : {})}
         renderItem={({ item }) => (
           <Link
-            href={{ pathname: '/ligas/[leagueId]', params: { leagueId: item.id } }}
+            href={{
+              pathname: '/leagues/[leagueId]',
+              params: { leagueId: item.id },
+            }}
             asChild
           >
             <Pressable>
