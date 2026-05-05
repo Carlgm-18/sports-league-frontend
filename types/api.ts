@@ -71,8 +71,14 @@ export interface SignImageUrl {
   uploatAt?: string;
 }
 
-export interface LicenceElement {
+export interface SportDetails {
+  sportId: number;
+  /** @maxLength 50 */
   sportName: string;
+}
+
+export interface LicenceElement {
+  sport: SportDetails;
   license: string;
 }
 
