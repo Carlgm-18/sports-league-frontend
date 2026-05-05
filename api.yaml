@@ -88,6 +88,14 @@ components:
       properties:
         sportName:
           type: string
+          maxLength: 50
+
+    LicenceElement:
+      type: object
+      required: [sport, license]
+      properties:
+        sport:
+          $ref: '#/components/schemas/SportDetails'
         license:
           type: string
 
