@@ -82,10 +82,12 @@ components:
           type: string
           format: date-time
 
-    LicenceElement:
+    SportDetails:
       type: object
-      required: [sportName, license]
+      required: [sportId, sportName]
       properties:
+        sportId:
+          type: integer
         sportName:
           type: string
           maxLength: 50
