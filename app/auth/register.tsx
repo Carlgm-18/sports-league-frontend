@@ -1,7 +1,11 @@
 import RegisterStep1 from '@/components/ui/register/RegisterStep1';
 import RegisterStep2 from '@/components/ui/register/RegisterStep2';
 import { userRegister } from '@/services/UserService';
-import { UserCategory, UserCreateRequest, UserCreateResponse } from '@/types/api';
+import {
+    UserCategory,
+    UserCreateRequest,
+    UserCreateResponse,
+} from '@/types/api';
 import { ApiResult } from '@/types/own';
 import { Link } from 'expo-router';
 
@@ -14,7 +18,7 @@ import {
     StyleSheet,
     Text,
     View,
-} from 'react-native'; 
+} from 'react-native';
 
 export default function RegisterScreen() {
   const [formData, setFormData] = useState<UserCreateRequest>({
@@ -64,7 +68,13 @@ export default function RegisterScreen() {
         </View>
 
         <View style={styles.footerContainer}>
-          <Pressable style={styles.primaryButton} onPress={handleRegister}>
+          <Pressable
+            style={({ pressed, hovered }: any) => [
+              styles.primaryButton,
+              (hovered || pressed) && styles.primaryButtonDarkened,
+            ]}
+            onPress={handleRegister}
+          >
             <Text style={styles.primaryButtonText}>Crear cuenta</Text>
           </Pressable>
 
@@ -72,7 +82,16 @@ export default function RegisterScreen() {
             <Text style={styles.footerText}>¿Ya tienes cuenta? </Text>
             <Link href="/auth/login" asChild>
               <Pressable>
-                <Text style={styles.loginText}>Iniciar sesión</Text>
+                {({ pressed, hovered }: any) => (
+                  <Text
+                    style={[
+                      styles.loginText,
+                      (hovered || pressed) && styles.loginTextDarkened,
+                    ]}
+                  >
+                    Iniciar sesión
+                  </Text>
+                )}
               </Pressable>
             </Link>
           </View>
@@ -177,6 +196,9 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
   },
+  primaryButtonDarkened: {
+    backgroundColor: '#1565C0', // Un azul más oscuro para el estado presionado/hover
+  },
   primaryButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
@@ -192,6 +214,9 @@ const styles = StyleSheet.create({
     color: '#2196F3',
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  loginTextDarkened: {
+    color: '#1565C0',
   },
 
   responseContainer: {
