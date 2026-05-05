@@ -65,7 +65,7 @@ export default function Step1({ formData, updateForm }: Step1Props) {
 }
 
 const styles = StyleSheet.create({
-  formContainer: { width: '100%' },
+  formContainer: { width: '100%', marginVertical: 'auto' },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
