@@ -1,20 +1,19 @@
+import { Href, Link } from 'expo-router';
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text } from 'react-native';
 
 interface Props {
-  onPress: () => void;
+  href: Href;
 }
 
-const CreateLeagueButton = ({ onPress }: Props) => {
+const CreateLeagueButton = ({ href }: Props) => {
   return (
-    <TouchableOpacity 
-      style={styles.button} 
-      onPress={onPress} 
-      activeOpacity={0.8}
-    >
-      <Text style={styles.icon}>+</Text>
-      <Text style={styles.text}>New league</Text>
-    </TouchableOpacity>
+    <Link href={href} asChild>
+      <Pressable style={styles.button}>
+        <Text style={styles.icon}>+</Text>
+        <Text style={styles.text}>New league</Text>
+      </Pressable>
+    </Link>
   );
 };
 
@@ -23,14 +22,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 20,
-    
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 30,
-    
+
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -44,13 +42,13 @@ const styles = StyleSheet.create({
     }),
   },
   icon: {
-    fontSize: 24,
+    fontSize: 32,
     marginRight: 8,
     color: '#000',
     lineHeight: 28,
   },
   text: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: '600',
     color: '#000',
   },
