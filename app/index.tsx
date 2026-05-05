@@ -29,6 +29,7 @@ const PADDING_HORIZONTAL = 96;
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
+  const { isAuthenticated } = useAuth();
 
   const availableWidth = width - PADDING_HORIZONTAL;
   const numColumns = Math.max(
@@ -58,6 +59,12 @@ export default function HomeScreen() {
           </Link>
         )}
       />
+
+      {isAuthenticated && (
+        <CreateLeagueButton
+          href="/leagues/new-league"
+        />
+      )}
     </View>
   );
 }
