@@ -2,7 +2,7 @@ import { LEAGUE_CARD_WIDTH, LeagueCard } from '@/components/ui/LeagueCard';
 import { LoginButton } from '@/components/ui/LoginButton';
 import CreateLeagueButton from '@/components/ui/league/CreateLeagueButton';
 import { useAuth } from '@/hooks/authProvider';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import {
     FlatList,
     Pressable,
