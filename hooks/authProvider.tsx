@@ -1,10 +1,20 @@
 import { userLogin } from '@/services/UserService';
 import { ApiResult } from '@/types/own';
-import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
+import {
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from 'react';
 
 import { UserAuthResponse } from '@/types/api';
+import {
+    deleteStorageItemAsync,
+    getStorageItemAsync,
+    setStorageItemAsync,
+} from '@/utils/storage';
 import { useRouter, useSegments } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
 
 const TOKEN_KEY = 'access_token';
 
@@ -37,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const loadToken = async () => {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
+      const token = await getStorageItemAsync(TOKEN_KEY);
       if (token) {
         setAuthToken(token);
         setIsAuthenticated(true);
@@ -65,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const token = result.data.accessToken;
       setAuthToken(token);
       setIsAuthenticated(true);
-      await SecureStore.setItemAsync(TOKEN_KEY, token);
+      await setStorageItemAsync(TOKEN_KEY, token);
     }
     return result;
   };
@@ -73,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     setAuthToken(null);
     setIsAuthenticated(false);
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
+    await deleteStorageItemAsync(TOKEN_KEY);
   };
 
   const value = {

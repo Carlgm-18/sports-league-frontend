@@ -1,15 +1,15 @@
-import * as SecureStore from 'expo-secure-store';
-
 import { type ApiResult } from '@/types/own';
+import { getStorageItemAsync } from '@/utils/storage';
 
 const API_BASE_URL = 'http://localhost:8079/api/v1';
+const TOKEN_KEY = 'access_token';
 
 const getStandardHeaders = async (): Promise<HeadersInit> => {
   const headers: Record<string, string> = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
-  const token = await SecureStore.getItemAsync('jwt_token');
+  const token = await getStorageItemAsync(TOKEN_KEY);
   if (token) headers['Authorization'] = `Bearer ${token}`;
   return headers;
 };
@@ -38,7 +38,6 @@ const handleResponse = async <T>(response: Response): Promise<ApiResult<T>> => {
 };
 
 export const apiClient = {
-  // Usamos genéricos <T> para tipar la respuesta automáticamente
   get: async <T>(endpoint: string): Promise<ApiResult<T>> => {
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -46,11 +45,12 @@ export const apiClient = {
         headers: await getStandardHeaders(),
       });
       return handleResponse<T>(response);
-    } catch {
+    } catch (error) {
+      console.error('API GET Error:', error);
       return {
         ok: false,
         error: {
-          errorCode: 400,
+          errorCode: 500,
           errorMessage: 'Error de red. Revisa tu conexión.',
         },
       };
@@ -65,11 +65,12 @@ export const apiClient = {
         body: JSON.stringify(body),
       });
       return handleResponse<T>(response);
-    } catch {
+    } catch (error) {
+      console.error('API POST Error:', error);
       return {
         ok: false,
         error: {
-          errorCode: 400,
+          errorCode: 500,
           errorMessage: 'Error de red. Revisa tu conexión.',
         },
       };
