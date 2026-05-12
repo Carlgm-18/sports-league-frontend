@@ -1,10 +1,30 @@
-import React from 'react';
+import { getSports } from '@/services/SportService';
+import { SportDetails } from '@/types/api';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 export default function ConfigurationStep({ data, updateData }: any) {
   const handleChange = (key: string, value: string | number) => {
     updateData({ ...data, [key]: value });
   };
+
+  const [sports, setSports] = useState<SportDetails[]>([]);
+
+  useEffect(() => {
+    function fetchSports() {
+        getSports().then((res) => {
+            if (res.ok) {
+                setSports(res.data);
+            } else {
+                console.error('Error fetching sports:', res.error);
+            }
+        });
+    }
+
+    fetchSports();
+  }, []);
+
 
   return (
     <View style={styles.container}>
@@ -15,13 +35,17 @@ export default function ConfigurationStep({ data, updateData }: any) {
         </Text>
       </View>
 
-      <TextInput
-        placeholder="Nombre del Deporte"
-        placeholderTextColor="#9CA3AF"
-        value={data.sportName}
-        onChangeText={(t) => handleChange('sportName', t)}
-        style={styles.input}
-      />
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={data.sportName}
+          onValueChange={(itemValue) => handleChange('sportName', itemValue)}
+        >
+          <Picker.Item label="Selecciona un deporte..." value="" color="#9CA3AF" />
+          {sports.map((sport) => (
+            <Picker.Item key={sport.sportId} label={sport.sportName} value={sport.sportName} />
+          ))}
+        </Picker>
+      </View>
       <TextInput
         placeholder="Categoría (MALE, FEMALE, MIXED)"
         placeholderTextColor="#9CA3AF"
@@ -86,5 +110,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     fontSize: 16,
     color: '#111827',
+  },
+  pickerContainer: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    borderRadius: 12,
+    overflow: 'hidden',
   },
 });
