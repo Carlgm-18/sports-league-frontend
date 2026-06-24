@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "setup": "npm install && npx allow-scripts",
+    "setup": "pnpm install",
     "reset-project": "node ./scripts/reset-project.js",
-    "sync-api": "swagger-typescript-api generate -p ./api.yaml -o ./types -n api.ts --no-client",
+    "sync-api": "swagger-typescript-api generate -p ../sports-league-backend/src/main/resources/api_contracts/main.yaml -o ./types -n api.ts --no-client",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -33,6 +33,7 @@
     "expo-system-ui": "~6.0.9",
     "expo-web-browser": "~15.0.10",
     "i18next": "^26.0.10",
+    "nativewind": "4.2.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-i18next": "^17.0.7",
@@ -45,25 +46,23 @@
     "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
-    "@lavamoat/allow-scripts": "^4.0.0",
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "openapi-typescript": "^7.13.0",
     "swagger-typescript-api": "^13.6.5",
+    "tailwindcss": "3.4.17",
     "typescript": "~5.9.2"
   },
   "private": true,
-  "lavamoat": {
-    "allowScripts": {
-      "expo": true,
-      "react-native": true,
-      "expo-modules-autolinking": true,
-      "@babel/core": true,
-      "core-js": true,
-      "esbuild": true,
-      "@lavamoat/allow-scripts": false,
-      "eslint-config-expo>eslint-import-resolver-typescript>unrs-resolver": false
-    }
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "expo",
+      "react-native",
+      "expo-modules-autolinking",
+      "@babel/core",
+      "core-js",
+      "esbuild"
+    ]
   }
 }
