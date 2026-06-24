@@ -76,4 +76,44 @@ export const apiClient = {
       };
     }
   },
+
+  put: async <T>(endpoint: string, body?: any): Promise<ApiResult<T>> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'PUT',
+        headers: await getStandardHeaders(),
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      return handleResponse<T>(response);
+    } catch (error) {
+      console.error('API PUT Error:', error);
+      return {
+        ok: false,
+        error: {
+          errorCode: 500,
+          errorMessage: 'Error de red. Revisa tu conexión.',
+        },
+      };
+    }
+  },
+
+  patch: async <T>(endpoint: string, body?: any): Promise<ApiResult<T>> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'PATCH',
+        headers: await getStandardHeaders(),
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      return handleResponse<T>(response);
+    } catch (error) {
+      console.error('API PATCH Error:', error);
+      return {
+        ok: false,
+        error: {
+          errorCode: 500,
+          errorMessage: 'Error de red. Revisa tu conexión.',
+        },
+      };
+    }
+  },
 };

@@ -3,6 +3,8 @@
 
 ## Futuros añadidos
 - **Nativewind** para los estilos
+- Sistema de drag and drop para la pantalla de partido con `react-native-drax`
+- Gráficos dinámicos e interactivos con `Victory Native (XL)`
 
 ## TODO preproducción
 - [ ] Sistema de puntuación apto para futbol

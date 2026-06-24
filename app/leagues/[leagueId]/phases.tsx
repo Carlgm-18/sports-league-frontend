@@ -18,46 +18,46 @@ import { PhaseCard } from '@/components/ui/PhaseCard';
 type Phase = ClassificationPhaseDetails | TournamentPhaseDetails;
 
 // --- DATOS MOCK (Adaptados a tus tipos importados) ---
-const MOCK_PHASES: Phase[] = [
+const MOCK_PHASES: any[] = [
   {
     id: 'fase-1', // Lo añadimos para react 'key' y navegación
     name: 'Fase de Grupos (Apertura)',
     startDate: '2026-09-01T10:00:00Z',
     endDate: '2026-11-30T23:59:59Z',
-    sequenceOrder: '1',
+    sequenceOrder: 1,
     // Simulamos que el backend te devuelve un discriminador si no lo trae el type por defecto
     isClassification: true,
     groups: [
       { topWinners: 2, teams: [{}, {}, {}, {}] },
       { topWinners: 2, teams: [{}, {}, {}, {}] },
     ],
-  } as ClassificationPhaseDetails & { id: string; isClassification: boolean },
+  },
   {
     id: 'fase-2',
     name: 'Playoffs Finales',
     startDate: '2026-12-05T10:00:00Z',
     endDate: '2026-12-20T23:59:59Z',
-    sequenceOrder: '2',
+    sequenceOrder: 2,
     isClassification: false,
     matchesOrder: [
       { indexOrder: 1, match: {} },
       { indexOrder: 2, match: {} },
       { indexOrder: 3, match: {} },
     ],
-  } as TournamentPhaseDetails & { id: string; isClassification: boolean },
+  },
 ];
 
 // --- PANTALLA PRINCIPAL ---
 export default function PhasesTab() {
   const router = useRouter();
-  const { id: leagueId } = useLocalSearchParams();
+  const { leagueId } = useLocalSearchParams();
 
   const sortedPhases = [...MOCK_PHASES].sort((a, b) =>
-    a.sequenceOrder.localeCompare(b.sequenceOrder),
+    Number(a.sequenceOrder) - Number(b.sequenceOrder)
   );
 
   const handlePhasePress = (phaseId: string) => {
-    router.push(`/ligas/${leagueId}/fases/${phaseId}`);
+    router.push(`/ligas/${leagueId}/fases/${phaseId}` as any);
   };
 
   return (

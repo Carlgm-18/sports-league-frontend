@@ -27,7 +27,7 @@ export default function RegisterScreen() {
     confirmPassword: '',
     firstName: '',
     lastName: '',
-    category: UserCategory.MALE,
+    category: 'MALE' as any,
     licenses: [],
   });
   const [response, setResponse] =

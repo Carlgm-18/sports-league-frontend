@@ -1,3 +1,4 @@
+import '../global.css';
 import {
   DarkTheme,
   DefaultTheme,
@@ -25,6 +26,7 @@ export default function RootLayout() {
           <Stack screenOptions={{headerShown: false}}>
             <Stack.Screen name="index" />
             <Stack.Screen name="leagues/[leagueId]" />
+            <Stack.Screen name="matches/[matchId]" />
             <Stack.Screen name="auth/login" />
             <Stack.Screen name="auth/register" />
             <Stack.Screen name="user/me" />

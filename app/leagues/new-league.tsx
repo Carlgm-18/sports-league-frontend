@@ -3,18 +3,22 @@ import GeneralInfoStep from '@/components/ui/league/create/GeneralInfoStep';
 import PhasesStep from '@/components/ui/league/create/PhasesStep';
 import PunctuationStep from '@/components/ui/league/create/PunctuationStep';
 import React, { useState } from 'react';
+import { createLeague } from '@/services/LeagueService';
+import { useRouter } from 'expo-router';
 import {
     KeyboardAvoidingView,
     Platform,
     Pressable,
     ScrollView,
-    StyleSheet,
     Text,
     View,
+    ActivityIndicator,
 } from 'react-native';
 
 export default function CreateLeagueScreen() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [leagueData, setLeagueData] = useState({
     name: '',
     description: '',
@@ -41,25 +45,35 @@ export default function CreateLeagueScreen() {
   };
 
   const submitLeague = async () => {
-    // TODO: Implementar llamada a API para crear la liga
-    console.log(JSON.stringify(leagueData, null, 2));
+    setLoading(true);
+    const result = await createLeague(leagueData as any);
+    setLoading(false);
+    if (result.ok) {
+      alert('Liga creada con éxito');
+      router.replace({
+        pathname: '/leagues/[leagueId]',
+        params: { leagueId: result.data.leagueId },
+      });
+    } else {
+      alert('Error al crear la liga: ' + (result.error?.errorMessage || 'Inténtalo de nuevo'));
+    }
   };
 
   return (
     <KeyboardAvoidingView
-      style={styles.screenContainer}
+      className="flex-1 bg-gray-50"
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={{ flexGrow: 1, alignItems: 'center', padding: 24 }}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>Crear nueva liga</Text>
-          <Text style={styles.subtitle}>Paso {step} de 4</Text>
+        <View className="mb-8 items-center">
+          <Text className="text-2xl font-bold text-gray-900">Crear nueva liga</Text>
+          <Text className="text-sm text-gray-500 mt-1">Paso {step} de 4</Text>
         </View>
 
-        <View style={styles.formContainer}>
+        <View className="w-full max-w-xl items-center">
           {step === 1 && (
             <GeneralInfoStep data={leagueData} updateData={updateData} />
           )}
@@ -87,39 +101,36 @@ export default function CreateLeagueScreen() {
           )}
         </View>
 
-        <View style={styles.footerContainer}>
-          <View style={styles.buttonsRow}>
+        <View className="w-full max-w-xl mt-8">
+          <View className="flex-row justify-center gap-4">
             {step > 1 && (
               <Pressable
-                style={({ pressed, hovered }: any) => [
-                  styles.secondaryButton,
-                  (hovered || pressed) && styles.secondaryButtonDarkened,
-                ]}
+                className="flex-1 bg-white border border-gray-300 rounded-xl h-14 justify-center items-center active:bg-gray-100"
                 onPress={() => setStep(step - 1)}
+                disabled={loading}
               >
-                <Text style={styles.secondaryButtonText}>Atrás</Text>
+                <Text className="text-gray-700 text-base font-bold">Atrás</Text>
               </Pressable>
             )}
 
             {step < 4 ? (
               <Pressable
-                style={({ pressed, hovered }: any) => [
-                  styles.primaryButton,
-                  (hovered || pressed) && styles.primaryButtonDarkened,
-                ]}
+                className="flex-1 bg-blue-600 rounded-xl h-14 justify-center items-center active:bg-blue-700"
                 onPress={() => setStep(step + 1)}
               >
-                <Text style={styles.primaryButtonText}>Siguiente</Text>
+                <Text className="text-white text-base font-bold">Siguiente</Text>
               </Pressable>
             ) : (
               <Pressable
-                style={({ pressed, hovered }: any) => [
-                  styles.primaryButton,
-                  (hovered || pressed) && styles.primaryButtonDarkened,
-                ]}
+                className="flex-1 bg-blue-600 rounded-xl h-14 justify-center items-center active:bg-blue-700"
                 onPress={submitLeague}
+                disabled={loading}
               >
-                <Text style={styles.primaryButtonText}>Crear Liga</Text>
+                {loading ? (
+                  <ActivityIndicator size="small" color="white" />
+                ) : (
+                  <Text className="text-white text-base font-bold">Crear Liga</Text>
+                )}
               </Pressable>
             )}
           </View>
@@ -129,78 +140,3 @@ export default function CreateLeagueScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    backgroundColor: '#F9FAFB', // Mismo fondo que el registro
-  },
-  scrollContent: {
-    flexGrow: 1,
-    alignItems: 'center',
-    padding: 24,
-  },
-  headerContainer: {
-    marginBottom: 32,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#6B7280',
-    textAlign: 'center',
-  },
-  formContainer: {
-    width: '100%',
-    maxWidth: 600, // Limita el ancho en pantallas grandes (web)
-    alignItems: 'center',
-  },
-  footerContainer: {
-    width: '100%',
-    maxWidth: 600,
-    marginTop: 32,
-  },
-  buttonsRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-  },
-  primaryButton: {
-    flex: 1,
-    backgroundColor: '#2196F3',
-    borderRadius: 12,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  primaryButtonDarkened: {
-    backgroundColor: '#1565C0',
-  },
-  primaryButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  secondaryButton: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 12,
-    height: 56,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  secondaryButtonDarkened: {
-    backgroundColor: '#F3F4F6',
-  },
-  secondaryButtonText: {
-    color: '#374151',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});

@@ -7,9 +7,9 @@ export const LoginButton = () => {
   const { isAuthenticated } = useAuth();
   const handleProfilePress = () => {
     if (isAuthenticated) {
-      router.push('/profile');
+      router.push('/user/me' as any);
     } else {
-      router.push('./auth/login');
+      router.push('/auth/login' as any);
     }
   };
   return (
