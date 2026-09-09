@@ -41,7 +41,7 @@ export default function Step2({ formData, updateForm }: Step2Props) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Nombre"
+          placeholder="Nombre *"
           placeholderTextColor="#999"
           value={formData.firstName}
           onChangeText={(text) => updateForm('firstName', text)}
@@ -57,7 +57,7 @@ export default function Step2({ formData, updateForm }: Step2Props) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Apellidos"
+          placeholder="Apellidos *"
           placeholderTextColor="#999"
           value={formData.lastName}
           onChangeText={(text) => updateForm('lastName', text)}

@@ -33,11 +33,39 @@ export default function RegisterScreen() {
   const [response, setResponse] =
     useState<ApiResult<UserCreateResponse> | null>(null);
 
+  const [validationError, setValidationError] = useState<string | null>(null);
+
   const updateForm = (field: string, value: any) => {
+    if (validationError) setValidationError(null);
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const isFormValid =
+    formData.email.trim().length > 0 &&
+    formData.password.trim().length > 0 &&
+    formData.confirmPassword.trim().length > 0 &&
+    formData.firstName.trim().length > 0 &&
+    formData.lastName.trim().length > 0;
+
   const handleRegister = async () => {
+    setValidationError(null);
+    setResponse(null);
+
+    if (!isFormValid) {
+      setValidationError('Por favor, completa todos los campos obligatorios (*).');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setValidationError('Las contraseñas no coinciden.');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setValidationError('La contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+
     const result = await userRegister(formData);
     setResponse(result);
   };
@@ -58,6 +86,12 @@ export default function RegisterScreen() {
           </Text>
         </View>
 
+        {validationError && (
+          <View className="bg-red-50 border border-red-200 p-3 rounded-xl mb-4 w-full">
+            <Text className="text-red-700 text-xs font-semibold text-center">{validationError}</Text>
+          </View>
+        )}
+
         <View style={styles.columnsContainer}>
           <View style={styles.column}>
             <RegisterStep1 formData={formData} updateForm={updateForm} />
@@ -71,9 +105,11 @@ export default function RegisterScreen() {
           <Pressable
             style={({ pressed, hovered }: any) => [
               styles.primaryButton,
+              !isFormValid && { opacity: 0.5 },
               (hovered || pressed) && styles.primaryButtonDarkened,
             ]}
             onPress={handleRegister}
+            disabled={!isFormValid}
           >
             <Text style={styles.primaryButtonText}>Crear cuenta</Text>
           </Pressable>

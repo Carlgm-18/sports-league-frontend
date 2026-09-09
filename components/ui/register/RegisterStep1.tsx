@@ -18,7 +18,7 @@ export default function Step1({ formData, updateForm }: Step1Props) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Correo electrónico"
+          placeholder="Correo electrónico *"
           placeholderTextColor="#999"
           keyboardType="email-address"
           autoCapitalize="none"
@@ -36,7 +36,7 @@ export default function Step1({ formData, updateForm }: Step1Props) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Contraseña"
+          placeholder="Contraseña *"
           placeholderTextColor="#999"
           secureTextEntry
           value={formData.password}
@@ -53,7 +53,7 @@ export default function Step1({ formData, updateForm }: Step1Props) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Confirmar contraseña"
+          placeholder="Confirmar contraseña *"
           placeholderTextColor="#999"
           secureTextEntry
           value={formData.confirmPassword}

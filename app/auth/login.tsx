@@ -1,6 +1,6 @@
 import { useAuth } from '@/hooks/authProvider';
 import { Ionicons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
     KeyboardAvoidingView,
@@ -13,24 +13,27 @@ import {
 } from 'react-native';
 
 export default function LoginScreen() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
 
   const handleLogin = async () => {
-    setError(null); // Limpia errores previos
-    const result = await login(email, password);
+    setError(null);
+    if (!email.trim() || !password.trim()) {
+      setError('Introduce tu correo electrónico y contraseña.');
+      return;
+    }
+    const result = await login(email.trim(), password);
 
     if (!result.ok) {
-        // Si el login falla, muestra un error al usuario.
-        // La redirección no ocurrirá.
         const errorMessage = result.error?.errorMessage || 'Credenciales incorrectas. Inténtalo de nuevo.';
         setError(errorMessage);
     }
-    // Si el login es exitoso, el useEffect del AuthProvider se encargará
-    //
   };
+
+  const isFormValid = email.trim().length > 0 && password.trim().length > 0;
 
   return (
     <KeyboardAvoidingView
@@ -46,6 +49,12 @@ export default function LoginScreen() {
         </View>
 
         <View style={styles.formContainer}>
+          {error && (
+            <View className="bg-red-50 border border-red-200 p-3 rounded-xl mb-4">
+              <Text className="text-red-700 text-xs font-semibold text-center">{error}</Text>
+            </View>
+          )}
+
           <View style={styles.inputContainer}>
             <Ionicons
               name="mail-outline"
@@ -55,11 +64,14 @@ export default function LoginScreen() {
             />
             <TextInput
               style={styles.input}
-              placeholder="Correo electrónico"
+              placeholder="Correo electrónico *"
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(t) => {
+                setEmail(t);
+                if (error) setError(null);
+              }}
             />
           </View>
 
@@ -72,15 +84,30 @@ export default function LoginScreen() {
             />
             <TextInput
               style={styles.input}
-              placeholder="Contraseña"
+              placeholder="Contraseña *"
               secureTextEntry
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(t) => {
+                setPassword(t);
+                if (error) setError(null);
+              }}
             />
           </View>
 
-          <Pressable style={styles.loginButton} onPress={handleLogin}>
+          <Pressable
+            style={[styles.loginButton, !isFormValid && { opacity: 0.5 }]}
+            onPress={handleLogin}
+            disabled={!isFormValid}
+          >
             <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
+          </Pressable>
+
+          {/* Botón para entrar sin iniciar sesión y ver las ligas */}
+          <Pressable
+            style={styles.laterButton}
+            onPress={() => router.replace('/')}
+          >
+            <Text style={styles.laterButtonText}>Más tarde</Text>
           </Pressable>
         </View>
 
@@ -163,6 +190,21 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  laterButton: {
+    backgroundColor: '#F3F4F6',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    height: 52,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  laterButtonText: {
+    color: '#4B5563',
+    fontSize: 15,
+    fontWeight: '600',
   },
   footerContainer: {
     flexDirection: 'row',

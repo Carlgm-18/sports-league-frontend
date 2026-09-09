@@ -57,17 +57,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadToken();
   }, []);
 
+  const [isGuestMode, setIsGuestMode] = useState(false);
+
   useEffect(() => {
     if (isLoading) return;
 
     const inAuthGroup = segments[0] === 'auth';
+    const isProtectedProfile = segments[0] === 'user';
 
-    if (!isAuthenticated && !inAuthGroup) {
+    if (!isAuthenticated && !inAuthGroup && isProtectedProfile) {
       router.replace('/auth/login');
     } else if (isAuthenticated && inAuthGroup) {
       router.replace('/');
     }
-  }, [isAuthenticated, segments, isLoading, router]);
+  }, [isAuthenticated, isGuestMode, segments, isLoading, router]);
 
   const login = async (email: string, password: string) => {
     const result = await userLogin(email, password);
