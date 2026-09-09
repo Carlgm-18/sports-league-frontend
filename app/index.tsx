@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/authProvider';
 import { getAllLeagues } from '@/services/LeagueService';
 import { LeagueSummary } from '@/types/api';
 import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import {
   FlatList,
   Pressable,
@@ -44,11 +45,20 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-gray-50">
+      {/* Cabecera Principal Sports League */}
+      <View className="bg-[#0060a8] px-8 pt-16 pb-10 rounded-b-[32px] shadow-md flex-row justify-between items-center">
+        <View>
+          <Text className="text-white text-2xl font-black tracking-tight">Sports League</Text>
+          <Text className="text-blue-100 text-xs font-semibold mt-1">Gestión y seguimiento de campeonatos</Text>
+        </View>
+        <Ionicons name="trophy" size={36} color="white" />
+      </View>
+
       <LoginButton />
 
       {loading ? (
         <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#2196F3" />
+          <ActivityIndicator size="large" color="#0060a8" />
         </View>
       ) : leagues.length === 0 ? (
         <View className="flex-1 justify-center items-center p-6">

@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     gap: 16,
     paddingHorizontal: 24,
     paddingVertical: 16,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#0060a8',
     alignItems: 'center',
     marginTop: 24,
     marginRight: 48,
