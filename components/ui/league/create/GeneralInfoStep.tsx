@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import ImageSelectorModal from '@/components/ui/ImageSelectorModal';
+import { IMAGE_SPECS } from '@/utils/ImageProcessor';
 
 export default function GeneralInfoStep({ data, updateData }: any) {
   return (
@@ -12,7 +14,7 @@ export default function GeneralInfoStep({ data, updateData }: any) {
       </View>
 
       <TextInput
-        placeholder="Nombre de la liga"
+        placeholder="Nombre de la liga *"
         placeholderTextColor="#9CA3AF"
         value={data.name}
         onChangeText={(t) => updateData('name', t)}
@@ -28,22 +30,33 @@ export default function GeneralInfoStep({ data, updateData }: any) {
         multiline
         maxLength={500}
       />
-      <TextInput
-        placeholder="URL del Icono"
-        placeholderTextColor="#9CA3AF"
-        value={data.iconImageUrl}
-        onChangeText={(t) => updateData('iconImageUrl', t)}
-        style={styles.input}
+
+      {/* Selector de Icono de la Liga (256x256, <200KB) */}
+      <ImageSelectorModal
+        label="Icono de la Liga"
+        specs={IMAGE_SPECS.SQUARE}
+        currentValue={data.iconImageUrl}
+        aspectDesc="256x256 px · Máx 200KB (Cuadrado)"
+        onChange={({ localUri, publicUrl, isLocal }) => {
+          updateData('iconImageUrl', isLocal ? localUri : publicUrl);
+          updateData('iconImageIsLocal', isLocal);
+        }}
       />
-      <TextInput
-        placeholder="URL del Banner"
-        placeholderTextColor="#9CA3AF"
-        value={data.bannerImageUrl}
-        onChangeText={(t) => updateData('bannerImageUrl', t)}
-        style={styles.input}
+
+      {/* Selector de Banner de la Liga (256x384, <200KB) */}
+      <ImageSelectorModal
+        label="Banner de la Liga"
+        specs={IMAGE_SPECS.BANNER}
+        currentValue={data.bannerImageUrl}
+        aspectDesc="256x384 px · Máx 200KB (Vertical)"
+        onChange={({ localUri, publicUrl, isLocal }) => {
+          updateData('bannerImageUrl', isLocal ? localUri : publicUrl);
+          updateData('bannerImageIsLocal', isLocal);
+        }}
       />
+
       <TextInput
-        placeholder="URL de Ubicación (Google Maps, etc)"
+        placeholder="URL de Ubicación (Google Maps, etc) *"
         placeholderTextColor="#9CA3AF"
         value={data.locationUrl}
         onChangeText={(t) => updateData('locationUrl', t)}
@@ -51,14 +64,14 @@ export default function GeneralInfoStep({ data, updateData }: any) {
       />
 
       <TextInput
-        placeholder="Fecha Inicio (YYYY-MM-DD)"
+        placeholder="Fecha Inicio (YYYY-MM-DD) *"
         placeholderTextColor="#9CA3AF"
         value={data.startDate}
         onChangeText={(t) => updateData('startDate', t)}
         style={styles.input}
       />
       <TextInput
-        placeholder="Fecha Fin (YYYY-MM-DD)"
+        placeholder="Fecha Fin (YYYY-MM-DD) *"
         placeholderTextColor="#9CA3AF"
         value={data.endDate}
         onChangeText={(t) => updateData('endDate', t)}
@@ -98,7 +111,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     fontSize: 16,
-    color: '#111827',
   },
-  textArea: { height: 120, textAlignVertical: 'top' },
+  textArea: {
+    height: 100,
+    textAlignVertical: 'top',
+  },
 });

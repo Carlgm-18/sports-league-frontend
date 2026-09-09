@@ -4,6 +4,7 @@ import PhasesStep from '@/components/ui/league/create/PhasesStep';
 import PunctuationStep from '@/components/ui/league/create/PunctuationStep';
 import React, { useState } from 'react';
 import { createLeague } from '@/services/LeagueService';
+import { uploadFileToStorage } from '@/services/StorageService';
 import { useRouter } from 'expo-router';
 import {
     KeyboardAvoidingView,
@@ -19,11 +20,13 @@ export default function CreateLeagueScreen() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [leagueData, setLeagueData] = useState({
+  const [leagueData, setLeagueData] = useState<any>({
     name: '',
     description: '',
     iconImageUrl: '',
+    iconImageIsLocal: false,
     bannerImageUrl: '',
+    bannerImageIsLocal: false,
     locationUrl: '',
     startDate: '',
     endDate: '',
@@ -41,21 +44,67 @@ export default function CreateLeagueScreen() {
   });
 
   const updateData = (key: string, value: any) => {
-    setLeagueData((prev) => ({ ...prev, [key]: value }));
+    setLeagueData((prev: any) => ({ ...prev, [key]: value }));
+  };
+
+  const isStep1Valid =
+    leagueData.name.trim().length > 0 &&
+    leagueData.startDate.trim().length > 0 &&
+    leagueData.endDate.trim().length > 0 &&
+    leagueData.locationUrl.trim().length > 0;
+
+  const handleNext = () => {
+    if (step === 1 && !isStep1Valid) {
+      alert('Por favor, rellena los campos obligatorios del Paso 1 (Nombre, Fechas y Ubicación).');
+      return;
+    }
+    setStep(step + 1);
   };
 
   const submitLeague = async () => {
+    if (!isStep1Valid) {
+      alert('Faltan campos obligatorios en la información general de la liga.');
+      setStep(1);
+      return;
+    }
+
     setLoading(true);
-    const result = await createLeague(leagueData as any);
+
+    let finalIconUrl = leagueData.iconImageUrl;
+    let finalBannerUrl = leagueData.bannerImageUrl;
+
+    // Subir a MinIO solo en el momento de enviar el formulario si están en memoria local
+    try {
+      if (leagueData.iconImageIsLocal && finalIconUrl && finalIconUrl.startsWith('file://')) {
+        finalIconUrl = await uploadFileToStorage('avatars', finalIconUrl, 'image/jpeg', 'jpg');
+      }
+      if (leagueData.bannerImageIsLocal && finalBannerUrl && finalBannerUrl.startsWith('file://')) {
+        finalBannerUrl = await uploadFileToStorage('banners', finalBannerUrl, 'image/jpeg', 'jpg');
+      }
+    } catch (uploadErr: any) {
+      alert('Error al subir imágenes a MinIO: ' + (uploadErr.message || 'Error desconocido'));
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      ...leagueData,
+      iconImageUrl: finalIconUrl,
+      bannerImageUrl: finalBannerUrl,
+    };
+    delete payload.iconImageIsLocal;
+    delete payload.bannerImageIsLocal;
+
+    const result = await createLeague(payload as any);
     setLoading(false);
     if (result.ok) {
-      alert('Liga creada con éxito');
+      alert('¡Liga creada con éxito!');
       router.replace({
         pathname: '/leagues/[leagueId]',
-        params: { leagueId: result.data.leagueId },
+        params: { leagueId: String(result.data.leagueId) },
       });
     } else {
-      alert('Error al crear la liga: ' + (result.error?.errorMessage || 'Inténtalo de nuevo'));
+      alert('Error al crear liga: ' + (result.error?.errorMessage || 'Revisa los datos'));
     }
   };
 
@@ -80,7 +129,7 @@ export default function CreateLeagueScreen() {
           {step === 2 && (
             <ConfigurationStep
               data={leagueData.configuration}
-              updateData={(val: string | number) =>
+              updateData={(val: any) =>
                 updateData('configuration', val)
               }
             />
@@ -88,7 +137,7 @@ export default function CreateLeagueScreen() {
           {step === 3 && (
             <PunctuationStep
               data={leagueData.punctuationSystem}
-              updateData={(val: string | number) =>
+              updateData={(val: any) =>
                 updateData('punctuationSystem', val)
               }
             />
@@ -96,7 +145,7 @@ export default function CreateLeagueScreen() {
           {step === 4 && (
             <PhasesStep
               data={leagueData.phases}
-              updateData={(val: string | number) => updateData('phases', val)}
+              updateData={(val: any) => updateData('phases', val)}
             />
           )}
         </View>
@@ -115,14 +164,14 @@ export default function CreateLeagueScreen() {
 
             {step < 4 ? (
               <Pressable
-                className="flex-1 bg-blue-600 rounded-xl h-14 justify-center items-center active:bg-blue-700"
-                onPress={() => setStep(step + 1)}
+                className={`flex-1 rounded-xl h-14 justify-center items-center ${step === 1 && !isStep1Valid ? 'bg-[#0060a8]/50' : 'bg-[#0060a8] active:bg-[#004375]'}`}
+                onPress={handleNext}
               >
                 <Text className="text-white text-base font-bold">Siguiente</Text>
               </Pressable>
             ) : (
               <Pressable
-                className="flex-1 bg-blue-600 rounded-xl h-14 justify-center items-center active:bg-blue-700"
+                className="flex-1 bg-[#0060a8] rounded-xl h-14 justify-center items-center active:bg-[#004375]"
                 onPress={submitLeague}
                 disabled={loading}
               >

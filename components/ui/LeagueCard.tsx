@@ -1,6 +1,7 @@
 import { Colors } from '@/constants/theme';
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export type LeagueCardProps = {
@@ -25,7 +26,9 @@ export const LeagueCard = ({ name, description, iconImageUrl, bannerImageUrl }: 
           {iconImageUrl ? (
             <Image source={{ uri: iconImageUrl }} style={leagueStyles.logoImage} />
           ) : (
-            <View style={leagueStyles.logoPlaceholder} />
+            <View style={leagueStyles.logoPlaceholder}>
+              <Ionicons name="trophy-outline" size={44} color="#0060a8" />
+            </View>
           )}
         </View>
       </View>
@@ -58,7 +61,7 @@ const leagueStyles = StyleSheet.create({
   },
   bannerSection: {
     height: 150,
-    backgroundColor: Colors.dark.cardFill,
+    backgroundColor: '#004375',
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
@@ -68,6 +71,7 @@ const leagueStyles = StyleSheet.create({
   },
   bannerPlaceholder: {
     ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#0060a8',
   },
   logoContainer: {
     width: 100,
@@ -89,11 +93,13 @@ const leagueStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 50,
-    backgroundColor: Colors.dark.cardFill,
+    backgroundColor: '#e6eff7',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   contentSection: {
     padding: 20,
-    backgroundColor: Colors.light.cardFill,
+    backgroundColor: '#f9fafb',
     height: 220,
   },
   leagueName: {

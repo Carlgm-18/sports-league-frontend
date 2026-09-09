@@ -24,7 +24,7 @@ export default function ClassificationTab() {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50">
-        <ActivityIndicator size="large" color="#2563EB" />
+        <ActivityIndicator size="large" color="#0060a8" />
       </View>
     );
   }
@@ -44,8 +44,8 @@ export default function ClassificationTab() {
       <View className="max-w-3xl w-full mx-auto space-y-6">
         {leaderboard.map((group) => (
           <View key={group.groupId} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <View className="bg-gray-50 px-4 py-3 border-b border-gray-200">
-              <Text className="text-base font-bold text-gray-900">{group.groupName}</Text>
+            <View className="bg-[#e6eff7] px-4 py-3 border-b border-gray-200">
+              <Text className="text-base font-bold text-[#0060a8]">{group.groupName}</Text>
             </View>
 
             <View className="p-4">
@@ -57,7 +57,7 @@ export default function ClassificationTab() {
                 <Text className="w-12 text-gray-500 font-semibold text-center text-xs">G</Text>
                 <Text className="w-12 text-gray-500 font-semibold text-center text-xs">E</Text>
                 <Text className="w-12 text-gray-500 font-semibold text-center text-xs">P</Text>
-                <Text className="w-14 text-blue-600 font-bold text-center text-xs">PTS</Text>
+                <Text className="w-14 text-[#0060a8] font-bold text-center text-xs">PTS</Text>
               </View>
 
               {/* Table Rows */}
@@ -78,7 +78,7 @@ export default function ClassificationTab() {
                     <Text className="w-12 text-gray-600 text-center text-sm">{row.wonMatches ?? 0}</Text>
                     <Text className="w-12 text-gray-600 text-center text-sm">{row.drawnMatches ?? 0}</Text>
                     <Text className="w-12 text-gray-600 text-center text-sm">{row.lostMatches ?? 0}</Text>
-                    <Text className="w-14 text-blue-600 font-extrabold text-center text-sm">{row.points ?? 0}</Text>
+                    <Text className="w-14 text-[#0060a8] font-extrabold text-center text-sm">{row.points ?? 0}</Text>
                   </View>
                 ))
               ) : (

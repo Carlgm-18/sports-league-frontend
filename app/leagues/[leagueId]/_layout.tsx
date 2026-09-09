@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 
 export default function LeagueTabLayout() {
@@ -7,7 +7,7 @@ export default function LeagueTabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#2196F3',
+        tabBarActiveTintColor: '#0060a8',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       }}
@@ -75,7 +75,7 @@ export default function LeagueTabLayout() {
         options={{
           title: 'Fases',
           tabBarIcon: ({ color }) => (
-            <Entypo name="flow-tree" size={24} color={color} />
+            <Ionicons name="git-network-outline" size={24} color={color} />
           ),
         }}
       />
@@ -88,7 +88,7 @@ export default function LeagueTabLayout() {
       />
 
       <Tabs.Screen
-        name="fases"
+        name="phases/[phaseId]/phase"
         options={{
           href: null,
         }}

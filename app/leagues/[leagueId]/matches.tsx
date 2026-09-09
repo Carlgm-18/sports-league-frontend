@@ -26,7 +26,7 @@ export default function MatchesTab() {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50">
-        <ActivityIndicator size="large" color="#2563EB" />
+        <ActivityIndicator size="large" color="#0060a8" />
       </View>
     );
   }

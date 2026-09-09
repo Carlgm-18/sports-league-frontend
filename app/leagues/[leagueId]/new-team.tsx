@@ -13,7 +13,10 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { getUserLeagueStatus } from '@/services/LeagueService';
 import { createRequest } from '@/services/RequestService';
+import { uploadFileToStorage } from '@/services/StorageService';
 import { ParticipantDetails } from '@/types/api';
+import ImageSelectorModal from '@/components/ui/ImageSelectorModal';
+import { IMAGE_SPECS } from '@/utils/ImageProcessor';
 
 export default function CrearEquipoScreen() {
   const router = useRouter();
@@ -22,6 +25,10 @@ export default function CrearEquipoScreen() {
   const [participant, setParticipant] = useState<ParticipantDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [shieldImage, setShieldImage] = useState<{ uri?: string; isLocal: boolean }>({
+    uri: 'https://i.pravatar.cc/150?img=3',
+    isLocal: false,
+  });
   
   const [formData, setFormData] = useState({
     nombre: '',
@@ -54,6 +61,18 @@ export default function CrearEquipoScreen() {
 
     setSubmitting(true);
 
+    // 1. Si la imagen está en memoria (local), subirla a MinIO ahora al enviar el formulario
+    let finalIconUrl = shieldImage.uri || 'https://i.pravatar.cc/150?img=3';
+    if (shieldImage.isLocal && shieldImage.uri) {
+      try {
+        finalIconUrl = await uploadFileToStorage('team-shields', shieldImage.uri, 'image/jpeg', 'jpg');
+      } catch (err: any) {
+        alert('Error al subir el escudo del equipo a MinIO: ' + (err.message || 'Error desconocido'));
+        setSubmitting(false);
+        return;
+      }
+    }
+
     // Generar iniciales de exactamente 2 caracteres que coincidan con la regex [A-Z][0-9A-Z]
     let initials = formData.nombre
       .replace(/[^a-zA-Z0-9]/g, '')
@@ -70,7 +89,7 @@ export default function CrearEquipoScreen() {
       motto: formData.lema || 'Sin lema',
       primaryColor: '#2563EFFF', // Formato RGBA hexadecimal #[0-9A-F]{8}
       secondaryColor: '#10B981FF',
-      iconImageUrl: 'https://i.pravatar.cc/150?img=3',
+      iconImageUrl: finalIconUrl,
       participantId: participant.participantId,
       leagueId: parseInt(leagueId, 10),
       status: 'PENDING',
@@ -93,7 +112,7 @@ export default function CrearEquipoScreen() {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50">
-        <ActivityIndicator size="large" color="#2563EB" />
+        <ActivityIndicator size="large" color="#0060a8" />
       </View>
     );
   }
@@ -104,7 +123,7 @@ export default function CrearEquipoScreen() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView 
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 24 }}
+        contentContainerStyle={{ flexGrow: 1, alignItems: 'center', padding: 24 }}
         showsVerticalScrollIndicator={false}
       >
         <View className="w-full max-w-md items-center">
@@ -116,21 +135,25 @@ export default function CrearEquipoScreen() {
 
           <View className="w-full space-y-4">
             
-            <View className="items-center mb-6">
-              <Pressable className="w-24 h-24 rounded-full bg-white border border-gray-200 border-dashed justify-center items-center relative">
-                <Ionicons name="image-outline" size={32} color="#9CA3AF" />
-                <View className="absolute bottom-0 right-0 bg-blue-600 w-7 h-7 rounded-full justify-center items-center border border-white">
-                  <Ionicons name="add" size={16} color="#FFF" />
-                </View>
-              </Pressable>
-              <Text className="text-xs text-gray-400 mt-2 font-medium">Escudo por defecto asignado</Text>
-            </View>
+            {/* Selector de Escudo con recorte (256x256, <200KB) o enlace existente */}
+            <ImageSelectorModal
+              label="Escudo del Equipo"
+              specs={IMAGE_SPECS.SQUARE}
+              currentValue={shieldImage.uri}
+              aspectDesc="256x256 px · Máx 200KB (Cuadrado)"
+              onChange={({ localUri, publicUrl, isLocal }) => {
+                setShieldImage({
+                  uri: isLocal ? localUri : publicUrl,
+                  isLocal,
+                });
+              }}
+            />
 
             <View className="flex-row items-center bg-white border border-gray-200 rounded-xl px-4 h-14">
               <Ionicons name="shield-half-outline" size={20} color="#9CA3AF" className="mr-3" />
               <TextInput
                 className="flex-1 text-gray-900 text-sm"
-                placeholder="Nombre del equipo"
+                placeholder="Nombre del equipo *"
                 placeholderTextColor="#9CA3AF"
                 value={formData.nombre}
                 onChangeText={(text) => setFormData({...formData, nombre: text})}
@@ -152,7 +175,7 @@ export default function CrearEquipoScreen() {
               <Ionicons name="document-text-outline" size={20} color="#9CA3AF" className="mr-3 mt-1" />
               <TextInput
                 className="flex-1 text-gray-900 text-sm h-full"
-                placeholder="Descripción completa del equipo..."
+                placeholder="Descripción completa del equipo... *"
                 placeholderTextColor="#9CA3AF"
                 multiline
                 numberOfLines={4}
@@ -172,9 +195,9 @@ export default function CrearEquipoScreen() {
               </Pressable>
               
               <Pressable 
-                className="flex-1 bg-blue-600 rounded-xl h-14 justify-center items-center active:bg-blue-700" 
+                className={`flex-1 rounded-xl h-14 justify-center items-center ${(!formData.nombre.trim() || !formData.descripcion.trim()) ? 'bg-[#0060a8]/50' : 'bg-[#0060a8] active:bg-[#004375]'}`} 
                 onPress={handleEnviar}
-                disabled={submitting}
+                disabled={submitting || !formData.nombre.trim() || !formData.descripcion.trim()}
               >
                 {submitting ? (
                   <ActivityIndicator size="small" color="white" />

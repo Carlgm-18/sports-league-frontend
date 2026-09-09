@@ -65,7 +65,7 @@ export default function TeamsTab() {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50">
-        <ActivityIndicator size="large" color="#2563EB" />
+        <ActivityIndicator size="large" color="#0060a8" />
       </View>
     );
   }
@@ -76,11 +76,11 @@ export default function TeamsTab() {
         
         {/* Banner para crear equipo */}
         <Link href={{ pathname: '/leagues/[leagueId]/new-team', params: { leagueId } }} asChild>
-          <Pressable className="flex-row items-center bg-blue-50 p-4 rounded-xl border border-blue-200 active:bg-blue-100">
-            <Ionicons name="add-circle" size={24} color="#2563EB" />
+          <Pressable className="flex-row items-center bg-[#e6eff7] p-4 rounded-xl border border-[#0060a8] active:bg-[#d0e2f0]">
+            <Ionicons name="add-circle" size={24} color="#0060a8" />
             <View className="flex-1 ml-3">
-              <Text className="text-sm font-bold text-blue-900">¿Tienes tu propio grupo?</Text>
-              <Text className="text-xs text-blue-600 mt-0.5">
+              <Text className="text-sm font-bold text-[#004375]">¿Tienes tu propio grupo?</Text>
+              <Text className="text-xs text-[#0060a8] mt-0.5">
                 Crea un equipo nuevo y envía una solicitud para unirte a la liga.
               </Text>
             </View>
