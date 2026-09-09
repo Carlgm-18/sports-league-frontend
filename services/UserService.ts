@@ -20,3 +20,20 @@ export const userLogin = async (
   password: string,
 ): Promise<ApiResult<UserAuthResponse>> =>
   await apiClient.post<UserAuthResponse>('/users/login', { email, password });
+
+export const updateCurrentUser = async (
+  userData: Partial<UserDetails>
+): Promise<ApiResult<UserDetails>> =>
+  await apiClient.patch<UserDetails>('/users/me', userData);
+
+export const getUserInvitations = async (): Promise<ApiResult<any[]>> =>
+  await apiClient.get<any[]>('/users/me/invitations');
+
+export const resolveUserInvitation = async (
+  requestId: number,
+  accept: boolean
+): Promise<ApiResult<any>> =>
+  await apiClient.patch<any>(`/users/me/invitations/${requestId}`, {
+    status: accept ? 'ACCEPTED' : 'REJECTED',
+  });
+

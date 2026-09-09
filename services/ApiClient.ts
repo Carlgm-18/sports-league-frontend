@@ -116,4 +116,23 @@ export const apiClient = {
       };
     }
   },
+
+  delete: async <T>(endpoint: string): Promise<ApiResult<T>> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers: await getStandardHeaders(),
+      });
+      return handleResponse<T>(response);
+    } catch (error) {
+      console.error('API DELETE Error:', error);
+      return {
+        ok: false,
+        error: {
+          errorCode: 500,
+          errorMessage: 'Error de red. Revisa tu conexión.',
+        },
+      };
+    }
+  },
 };

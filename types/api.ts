@@ -68,6 +68,8 @@ export type UserUpdateRequest = UserUserUpdateRequest;
 
 export type UserLoginRequest = UserUserLoginRequest;
 
+export type RefreshTokenRequest = UserRefreshTokenRequest;
+
 export type UserDetails = UserUserDetails;
 
 export type UserSummary = UserUserSummary;
@@ -399,6 +401,10 @@ export interface UserUserLoginRequest {
    * @maxLength 50
    */
   password: string;
+}
+
+export interface UserRefreshTokenRequest {
+  refreshToken: string;
 }
 
 export interface UserUserDetails {

@@ -82,3 +82,37 @@ export const updateUserAvailability = async (
   slotIds: number[]
 ): Promise<ApiResult<void>> =>
   await apiClient.put<void>(`/leagues/${leagueId}/my-status/availability`, slotIds);
+
+export const updateLeague = async (
+  leagueId: number,
+  leagueData: any
+): Promise<ApiResult<LeagueDetails>> =>
+  await apiClient.patch<LeagueDetails>(`/leagues/${leagueId}`, leagueData);
+
+export const updateLeagueConfiguration = async (
+  leagueId: number,
+  configData: any
+): Promise<ApiResult<any>> =>
+  await apiClient.patch<any>(`/leagues/${leagueId}/configuration`, configData);
+
+export const deleteLeague = async (
+  leagueId: number
+): Promise<ApiResult<void>> =>
+  await apiClient.delete<void>(`/leagues/${leagueId}`);
+
+export const updatePunctuationSystem = async (
+  leagueId: number,
+  punctuationData: any
+): Promise<ApiResult<any>> =>
+  await apiClient.put<any>(`/leagues/${leagueId}/punctuation-system`, punctuationData);
+
+export const getPhasesByLeague = async (
+  leagueId: number
+): Promise<ApiResult<any[]>> =>
+  await apiClient.get<any[]>(`/leagues/${leagueId}/phases`);
+
+export const getPhaseDetails = async (
+  leagueId: number,
+  phaseId: number | string
+): Promise<ApiResult<any>> =>
+  await apiClient.get<any>(`/leagues/${leagueId}/phases/${phaseId}`);
